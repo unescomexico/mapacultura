@@ -1,0 +1,1479 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css"><link rel="stylesheet" href="css/L.Control.Locate.min.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <link rel="stylesheet" href="css/leaflet-search.css">
+        <link rel="stylesheet" href="css/filter.css">
+<link rel="stylesheet" href="css/nouislider.min.css">
+        <link rel="stylesheet" href="css/leaflet-control-geocoder.Geocoder.css">
+        <link rel="stylesheet" href="css/leaflet-measure.css">
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        </style>
+        <title>Desarrollo social, fortalecimiento y salvaguarda del patrimonio cultural</title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script><script src="js/L.Control.Locate.min.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="js/leaflet-control-geocoder.Geocoder.js"></script>
+        <script src="js/leaflet-measure.js"></script>
+        <script src="js/leaflet-search.js"></script>
+        <script src="js/tailDT.js"></script>
+<script src="js/nouislider.min.js"></script>
+<script src="js/wNumb.js"></script>
+        <script src="data/DIVISINESTATAL_3.js"></script>
+        <script src="data/MUNICIPIOS_4.js"></script>
+        <script src="data/PAISAJESCULTURALESFODA_5.js"></script>
+        <script src="data/PAISAJEHISTRICOURBANOFODA_6.js"></script>
+        <script src="data/ACTORESCOMUNITARIOS_7.js"></script>
+        <script src="data/ACTORESESTRATGICOS_8.js"></script>
+        <script src="data/PATRIMONIOCULTURALINMATERIAL_9.js"></script>
+        <script>
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:1
+        }).fitBounds([[17.6323429483999,-92.55474806376445],[21.349133470535016,-86.10963208832582]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a> &middot; <a href="https://cocomaterial.com/">CocoMaterial</a>');
+        var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        L.control.locate({locateOptions: {maxZoom: 19}}).addTo(map);
+        var measureControl = new L.Control.Measure({
+            position: 'topleft',
+            primaryLengthUnit: 'meters',
+            secondaryLengthUnit: 'kilometers',
+            primaryAreaUnit: 'sqmeters',
+            secondaryAreaUnit: 'hectares'
+        });
+        measureControl.addTo(map);
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .innerHTML = '';
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .className += ' fas fa-ruler';
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+        }
+        map.createPane('pane_URBAN_0');
+        map.getPane('pane_URBAN_0').style.zIndex = 400;
+        var layer_URBAN_0 = L.tileLayer('http://a.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            pane: 'pane_URBAN_0',
+            opacity: 1.0,
+            attribution: '',
+            minZoom: 1,
+            maxZoom: 28,
+            minNativeZoom: 0,
+            maxNativeZoom: 18
+        });
+        layer_URBAN_0;
+        map.addLayer(layer_URBAN_0);
+        map.createPane('pane_SATELLITE_1');
+        map.getPane('pane_SATELLITE_1').style.zIndex = 401;
+        var layer_SATELLITE_1 = L.tileLayer('https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+            pane: 'pane_SATELLITE_1',
+            opacity: 1.0,
+            attribution: '',
+            minZoom: 1,
+            maxZoom: 28,
+            minNativeZoom: 0,
+            maxNativeZoom: 18
+        });
+        layer_SATELLITE_1;
+        map.createPane('pane_TOPOGRAPHY_2');
+        map.getPane('pane_TOPOGRAPHY_2').style.zIndex = 402;
+        var layer_TOPOGRAPHY_2 = L.tileLayer('https://api.maptiler.com/maps/topo/256/{z}/{x}/{y}.png?key=KpNDyyv9mz0XFsmCutbp', {
+            pane: 'pane_TOPOGRAPHY_2',
+            opacity: 1.0,
+            attribution: '',
+            minZoom: 1,
+            maxZoom: 28,
+            minNativeZoom: 0,
+            maxNativeZoom: 18
+        });
+        layer_TOPOGRAPHY_2;
+        map.addLayer(layer_TOPOGRAPHY_2);
+        function pop_DIVISINESTATAL_3(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Estado</th>\
+                        <td>' + (feature.properties['Estado'] !== null ? autolinker.link(feature.properties['Estado'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Report PUH</th>\
+                        <td>' + (feature.properties['Report PUH'] !== null ? autolinker.link(feature.properties['Report PUH'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_DIVISINESTATAL_3_0() {
+            return {
+                pane: 'pane_DIVISINESTATAL_3',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+        }
+        map.createPane('pane_DIVISINESTATAL_3');
+        map.getPane('pane_DIVISINESTATAL_3').style.zIndex = 403;
+        map.getPane('pane_DIVISINESTATAL_3').style['mix-blend-mode'] = 'normal';
+        var layer_DIVISINESTATAL_3 = new L.geoJson(json_DIVISINESTATAL_3, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_DIVISINESTATAL_3',
+            layerName: 'layer_DIVISINESTATAL_3',
+            pane: 'pane_DIVISINESTATAL_3',
+            onEachFeature: pop_DIVISINESTATAL_3,
+            style: style_DIVISINESTATAL_3_0,
+        });
+        bounds_group.addLayer(layer_DIVISINESTATAL_3);
+        map.addLayer(layer_DIVISINESTATAL_3);
+        function pop_MUNICIPIOS_4(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Cod</th>\
+                        <td>' + (feature.properties['Cod'] !== null ? autolinker.link(feature.properties['Cod'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Municipio</th>\
+                        <td>' + (feature.properties['Municipio'] !== null ? autolinker.link(feature.properties['Municipio'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Estado</th>\
+                        <td>' + (feature.properties['Estado'] !== null ? autolinker.link(feature.properties['Estado'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_MUNICIPIOS_4_0() {
+            return {
+                pane: 'pane_MUNICIPIOS_4',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 1.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+        }
+        map.createPane('pane_MUNICIPIOS_4');
+        map.getPane('pane_MUNICIPIOS_4').style.zIndex = 404;
+        map.getPane('pane_MUNICIPIOS_4').style['mix-blend-mode'] = 'normal';
+        var layer_MUNICIPIOS_4 = new L.geoJson(json_MUNICIPIOS_4, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_MUNICIPIOS_4',
+            layerName: 'layer_MUNICIPIOS_4',
+            pane: 'pane_MUNICIPIOS_4',
+            onEachFeature: pop_MUNICIPIOS_4,
+            style: style_MUNICIPIOS_4_0,
+        });
+        bounds_group.addLayer(layer_MUNICIPIOS_4);
+        map.addLayer(layer_MUNICIPIOS_4);
+        function pop_PAISAJESCULTURALESFODA_5(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Paisaje</th>\
+                        <td>' + (feature.properties['Paisaje'] !== null ? autolinker.link(feature.properties['Paisaje'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Estados</th>\
+                        <td>' + (feature.properties['Estados'] !== null ? autolinker.link(feature.properties['Estados'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Tramos</th>\
+                        <td>' + (feature.properties['Tramos'] !== null ? autolinker.link(feature.properties['Tramos'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_PAISAJESCULTURALESFODA_5_0() {
+            return {
+                pane: 'pane_PAISAJESCULTURALESFODA_5',
+                opacity: 1,
+                color: 'rgba(53,121,177,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 3.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+        }
+        map.createPane('pane_PAISAJESCULTURALESFODA_5');
+        map.getPane('pane_PAISAJESCULTURALESFODA_5').style.zIndex = 405;
+        map.getPane('pane_PAISAJESCULTURALESFODA_5').style['mix-blend-mode'] = 'normal';
+        var layer_PAISAJESCULTURALESFODA_5 = new L.geoJson(json_PAISAJESCULTURALESFODA_5, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_PAISAJESCULTURALESFODA_5',
+            layerName: 'layer_PAISAJESCULTURALESFODA_5',
+            pane: 'pane_PAISAJESCULTURALESFODA_5',
+            onEachFeature: pop_PAISAJESCULTURALESFODA_5,
+            style: style_PAISAJESCULTURALESFODA_5_0,
+        });
+        bounds_group.addLayer(layer_PAISAJESCULTURALESFODA_5);
+        function pop_PAISAJEHISTRICOURBANOFODA_6(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">COD</th>\
+                        <td>' + (feature.properties['COD'] !== null ? autolinker.link(feature.properties['COD'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">ESTADO</th>\
+                        <td>' + (feature.properties['ESTADO'] !== null ? autolinker.link(feature.properties['ESTADO'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">TRAMO</th>\
+                        <td>' + (feature.properties['TRAMO'] !== null ? autolinker.link(feature.properties['TRAMO'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">TIPO</th>\
+                        <td>' + (feature.properties['TIPO'] !== null ? autolinker.link(feature.properties['TIPO'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">TEMA PUH</th>\
+                        <td>' + (feature.properties['TEMA PUH'] !== null ? autolinker.link(feature.properties['TEMA PUH'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">CONCEP PUH</th>\
+                        <td>' + (feature.properties['CONCEP PUH'] !== null ? autolinker.link(feature.properties['CONCEP PUH'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_PAISAJEHISTRICOURBANOFODA_6_0(feature) {
+            switch(String(feature.properties['TIPO'])) {
+                case 'Amenazas':
+                    return {
+                pane: 'pane_PAISAJEHISTRICOURBANOFODA_6',
+        rotationAngle: 0.0,
+        rotationOrigin: 'center center',
+        icon: L.icon({
+            iconUrl: 'markers/RED.svg',
+            iconSize: [11.399999999999999, 11.399999999999999]
+        }),
+                interactive: true,
+            }
+                    break;
+                case 'Debilidades':
+                    return {
+                pane: 'pane_PAISAJEHISTRICOURBANOFODA_6',
+        rotationAngle: 0.0,
+        rotationOrigin: 'center center',
+        icon: L.icon({
+            iconUrl: 'markers/ORANGE.svg',
+            iconSize: [11.399999999999999, 11.399999999999999]
+        }),
+                interactive: true,
+            }
+                    break;
+                case 'Fortalezas':
+                    return {
+                pane: 'pane_PAISAJEHISTRICOURBANOFODA_6',
+        rotationAngle: 0.0,
+        rotationOrigin: 'center center',
+        icon: L.icon({
+            iconUrl: 'markers/BLUE.svg',
+            iconSize: [11.399999999999999, 11.399999999999999]
+        }),
+                interactive: true,
+            }
+                    break;
+                case 'Oportunidades':
+                    return {
+                pane: 'pane_PAISAJEHISTRICOURBANOFODA_6',
+        rotationAngle: 0.0,
+        rotationOrigin: 'center center',
+        icon: L.icon({
+            iconUrl: 'markers/GREEN.svg',
+            iconSize: [11.399999999999999, 11.399999999999999]
+        }),
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_PAISAJEHISTRICOURBANOFODA_6');
+        map.getPane('pane_PAISAJEHISTRICOURBANOFODA_6').style.zIndex = 406;
+        map.getPane('pane_PAISAJEHISTRICOURBANOFODA_6').style['mix-blend-mode'] = 'normal';
+        var layer_PAISAJEHISTRICOURBANOFODA_6 = new L.geoJson(json_PAISAJEHISTRICOURBANOFODA_6, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_PAISAJEHISTRICOURBANOFODA_6',
+            layerName: 'layer_PAISAJEHISTRICOURBANOFODA_6',
+            pane: 'pane_PAISAJEHISTRICOURBANOFODA_6',
+            onEachFeature: pop_PAISAJEHISTRICOURBANOFODA_6,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.marker(latlng, style_PAISAJEHISTRICOURBANOFODA_6_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_PAISAJEHISTRICOURBANOFODA_6);
+        function pop_ACTORESCOMUNITARIOS_7(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">ID</th>\
+                        <td>' + (feature.properties['ID'] !== null ? autolinker.link(feature.properties['ID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">MANIFESTAC</th>\
+                        <td>' + (feature.properties['MANIFESTAC'] !== null ? autolinker.link(feature.properties['MANIFESTAC'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">ENTIDAD</th>\
+                        <td>' + (feature.properties['ENTIDAD'] !== null ? autolinker.link(feature.properties['ENTIDAD'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">ACTIVIDAD</th>\
+                        <td>' + (feature.properties['ACTIVIDAD'] !== null ? autolinker.link(feature.properties['ACTIVIDAD'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">RELACIÓN</th>\
+                        <td>' + (feature.properties['RELACIÓN'] !== null ? autolinker.link(feature.properties['RELACIÓN'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">CLASIFICAC</th>\
+                        <td>' + (feature.properties['CLASIFICAC'] !== null ? autolinker.link(feature.properties['CLASIFICAC'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">LOCALIDAD</th>\
+                        <td>' + (feature.properties['LOCALIDAD'] !== null ? autolinker.link(feature.properties['LOCALIDAD'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">MUNICIPIO</th>\
+                        <td>' + (feature.properties['MUNICIPIO'] !== null ? autolinker.link(feature.properties['MUNICIPIO'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">ESTADO</th>\
+                        <td>' + (feature.properties['ESTADO'] !== null ? autolinker.link(feature.properties['ESTADO'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_ACTORESCOMUNITARIOS_7_0(feature) {
+            switch(String(feature.properties['CLASIFICAC'])) {
+                case 'Lider comunitario':
+                    return {
+                pane: 'pane_ACTORESCOMUNITARIOS_7',
+        rotationAngle: 0.0,
+        rotationOrigin: 'center center',
+        icon: L.icon({
+            iconUrl: 'markers/STAR-CLEAR YELLOW.svg',
+            iconSize: [26.599999999999998, 26.599999999999998]
+        }),
+                interactive: true,
+            }
+                    break;
+                case 'Líder Religioso':
+                    return {
+                pane: 'pane_ACTORESCOMUNITARIOS_7',
+        rotationAngle: 0.0,
+        rotationOrigin: 'center center',
+        icon: L.icon({
+            iconUrl: 'markers/STAR-CLEAR BROWN.svg',
+            iconSize: [26.599999999999998, 26.599999999999998]
+        }),
+                interactive: true,
+            }
+                    break;
+                case 'Liderazgo moral':
+                    return {
+                pane: 'pane_ACTORESCOMUNITARIOS_7',
+        rotationAngle: 0.0,
+        rotationOrigin: 'center center',
+        icon: L.icon({
+            iconUrl: 'markers/STAR-CLEAR GREEN.svg',
+            iconSize: [26.599999999999998, 26.599999999999998]
+        }),
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_ACTORESCOMUNITARIOS_7');
+        map.getPane('pane_ACTORESCOMUNITARIOS_7').style.zIndex = 407;
+        map.getPane('pane_ACTORESCOMUNITARIOS_7').style['mix-blend-mode'] = 'normal';
+        var layer_ACTORESCOMUNITARIOS_7 = new L.geoJson(json_ACTORESCOMUNITARIOS_7, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_ACTORESCOMUNITARIOS_7',
+            layerName: 'layer_ACTORESCOMUNITARIOS_7',
+            pane: 'pane_ACTORESCOMUNITARIOS_7',
+            onEachFeature: pop_ACTORESCOMUNITARIOS_7,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.marker(latlng, style_ACTORESCOMUNITARIOS_7_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_ACTORESCOMUNITARIOS_7);
+        function pop_ACTORESESTRATGICOS_8(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">ID</th>\
+                        <td>' + (feature.properties['ID'] !== null ? autolinker.link(feature.properties['ID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">PROYECTO</th>\
+                        <td>' + (feature.properties['PROYECTO'] !== null ? autolinker.link(feature.properties['PROYECTO'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">ENTIDAD</th>\
+                        <td>' + (feature.properties['ENTIDAD'] !== null ? autolinker.link(feature.properties['ENTIDAD'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">TIPO DE AC</th>\
+                        <td>' + (feature.properties['TIPO DE AC'] !== null ? autolinker.link(feature.properties['TIPO DE AC'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">ACTIVIDAD</th>\
+                        <td>' + (feature.properties['ACTIVIDAD'] !== null ? autolinker.link(feature.properties['ACTIVIDAD'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">RELACIÓN</th>\
+                        <td>' + (feature.properties['RELACIÓN'] !== null ? autolinker.link(feature.properties['RELACIÓN'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">CLASIFICAC</th>\
+                        <td>' + (feature.properties['CLASIFICAC'] !== null ? autolinker.link(feature.properties['CLASIFICAC'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">LOCALIDAD</th>\
+                        <td>' + (feature.properties['LOCALIDAD'] !== null ? autolinker.link(feature.properties['LOCALIDAD'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">MUNICIPIO</th>\
+                        <td>' + (feature.properties['MUNICIPIO'] !== null ? autolinker.link(feature.properties['MUNICIPIO'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">ESTADO</th>\
+                        <td>' + (feature.properties['ESTADO'] !== null ? autolinker.link(feature.properties['ESTADO'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_ACTORESESTRATGICOS_8_0(feature) {
+            switch(String(feature.properties['CLASIFICAC'])) {
+                case 'Academia':
+                    return {
+                pane: 'pane_ACTORESESTRATGICOS_8',
+        rotationAngle: 0.0,
+        rotationOrigin: 'center center',
+        icon: L.icon({
+            iconUrl: 'markers/STAR-YELLOW.svg',
+            iconSize: [26.599999999999998, 26.599999999999998]
+        }),
+                interactive: true,
+            }
+                    break;
+                case 'Iniciativa privadas':
+                    return {
+                pane: 'pane_ACTORESESTRATGICOS_8',
+        rotationAngle: 0.0,
+        rotationOrigin: 'center center',
+        icon: L.icon({
+            iconUrl: 'markers/STAR-BLACK.svg',
+            iconSize: [26.599999999999998, 26.599999999999998]
+        }),
+                interactive: true,
+            }
+                    break;
+                case 'Instituciones estatales':
+                    return {
+                pane: 'pane_ACTORESESTRATGICOS_8',
+        rotationAngle: 0.0,
+        rotationOrigin: 'center center',
+        icon: L.icon({
+            iconUrl: 'markers/STAR-BLUE.svg',
+            iconSize: [26.599999999999998, 26.599999999999998]
+        }),
+                interactive: true,
+            }
+                    break;
+                case 'Instituciones federales':
+                    return {
+                pane: 'pane_ACTORESESTRATGICOS_8',
+        rotationAngle: 0.0,
+        rotationOrigin: 'center center',
+        icon: L.icon({
+            iconUrl: 'markers/STAR-HARD BLUE.svg',
+            iconSize: [26.599999999999998, 26.599999999999998]
+        }),
+                interactive: true,
+            }
+                    break;
+                case 'Instituciones municipales':
+                    return {
+                pane: 'pane_ACTORESESTRATGICOS_8',
+        rotationAngle: 0.0,
+        rotationOrigin: 'center center',
+        icon: L.icon({
+            iconUrl: 'markers/STAR.svg',
+            iconSize: [26.599999999999998, 26.599999999999998]
+        }),
+                interactive: true,
+            }
+                    break;
+                case 'Organismos internacionales':
+                    return {
+                pane: 'pane_ACTORESESTRATGICOS_8',
+        rotationAngle: 0.0,
+        rotationOrigin: 'center center',
+        icon: L.icon({
+            iconUrl: 'markers/STAR-ORANGE.svg',
+            iconSize: [26.599999999999998, 26.599999999999998]
+        }),
+                interactive: true,
+            }
+                    break;
+                case 'Organismos no gubernamentales':
+                    return {
+                pane: 'pane_ACTORESESTRATGICOS_8',
+        rotationAngle: 0.0,
+        rotationOrigin: 'center center',
+        icon: L.icon({
+            iconUrl: 'markers/STAR-PURPLE.svg',
+            iconSize: [26.599999999999998, 26.599999999999998]
+        }),
+                interactive: true,
+            }
+                    break;
+                case 'Organizaciones de la Sociedad Civil':
+                    return {
+                pane: 'pane_ACTORESESTRATGICOS_8',
+        rotationAngle: 0.0,
+        rotationOrigin: 'center center',
+        icon: L.icon({
+            iconUrl: 'markers/STAR-RED.svg',
+            iconSize: [26.599999999999998, 26.599999999999998]
+        }),
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_ACTORESESTRATGICOS_8');
+        map.getPane('pane_ACTORESESTRATGICOS_8').style.zIndex = 408;
+        map.getPane('pane_ACTORESESTRATGICOS_8').style['mix-blend-mode'] = 'normal';
+        var layer_ACTORESESTRATGICOS_8 = new L.geoJson(json_ACTORESESTRATGICOS_8, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_ACTORESESTRATGICOS_8',
+            layerName: 'layer_ACTORESESTRATGICOS_8',
+            pane: 'pane_ACTORESESTRATGICOS_8',
+            onEachFeature: pop_ACTORESESTRATGICOS_8,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.marker(latlng, style_ACTORESESTRATGICOS_8_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_ACTORESESTRATGICOS_8);
+        function pop_PATRIMONIOCULTURALINMATERIAL_9(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">ID</th>\
+                        <td>' + (feature.properties['ID'] !== null ? autolinker.link(feature.properties['ID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">PCI MANIF</th>\
+                        <td>' + (feature.properties['PCI MANIF'] !== null ? autolinker.link(feature.properties['PCI MANIF'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">PCI AMBIT</th>\
+                        <td>' + (feature.properties['PCI AMBIT'] !== null ? autolinker.link(feature.properties['PCI AMBIT'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">ESTADO</th>\
+                        <td>' + (feature.properties['ESTADO'] !== null ? autolinker.link(feature.properties['ESTADO'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">MUNICIPIO</th>\
+                        <td>' + (feature.properties['MUNICIPIO'] !== null ? autolinker.link(feature.properties['MUNICIPIO'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_PATRIMONIOCULTURALINMATERIAL_9_0(feature) {
+            switch(String(feature.properties['PCI AMBIT'])) {
+                case 'a) Tradiciones y expresiones orales':
+                    return {
+                pane: 'pane_PATRIMONIOCULTURALINMATERIAL_9',
+        rotationAngle: 0.0,
+        rotationOrigin: 'center center',
+        icon: L.icon({
+            iconUrl: 'markers/DIAMOND-YELLOW.svg',
+            iconSize: [19.0, 19.0]
+        }),
+                interactive: true,
+            }
+                    break;
+                case 'b) Artes del espectáculo':
+                    return {
+                pane: 'pane_PATRIMONIOCULTURALINMATERIAL_9',
+        rotationAngle: 0.0,
+        rotationOrigin: 'center center',
+        icon: L.icon({
+            iconUrl: 'markers/DIAMOND-RED.svg',
+            iconSize: [19.0, 19.0]
+        }),
+                interactive: true,
+            }
+                    break;
+                case 'c) Usos sociales, rituales y actos festivos':
+                    return {
+                pane: 'pane_PATRIMONIOCULTURALINMATERIAL_9',
+        rotationAngle: 0.0,
+        rotationOrigin: 'center center',
+        icon: L.icon({
+            iconUrl: 'markers/DIAMOND-BLUE.svg',
+            iconSize: [19.0, 19.0]
+        }),
+                interactive: true,
+            }
+                    break;
+                case 'd) Conocimientos y usos relacionados con la naturaleza':
+                    return {
+                pane: 'pane_PATRIMONIOCULTURALINMATERIAL_9',
+        rotationAngle: 0.0,
+        rotationOrigin: 'center center',
+        icon: L.icon({
+            iconUrl: 'markers/DIAMOND- GREEN.svg',
+            iconSize: [19.0, 19.0]
+        }),
+                interactive: true,
+            }
+                    break;
+                case 'e) Técnicas artesanales tradicionales.':
+                    return {
+                pane: 'pane_PATRIMONIOCULTURALINMATERIAL_9',
+        rotationAngle: 0.0,
+        rotationOrigin: 'center center',
+        icon: L.icon({
+            iconUrl: 'markers/DIAMOND-PINK.svg',
+            iconSize: [19.0, 19.0]
+        }),
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_PATRIMONIOCULTURALINMATERIAL_9');
+        map.getPane('pane_PATRIMONIOCULTURALINMATERIAL_9').style.zIndex = 409;
+        map.getPane('pane_PATRIMONIOCULTURALINMATERIAL_9').style['mix-blend-mode'] = 'normal';
+        var layer_PATRIMONIOCULTURALINMATERIAL_9 = new L.geoJson(json_PATRIMONIOCULTURALINMATERIAL_9, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_PATRIMONIOCULTURALINMATERIAL_9',
+            layerName: 'layer_PATRIMONIOCULTURALINMATERIAL_9',
+            pane: 'pane_PATRIMONIOCULTURALINMATERIAL_9',
+            onEachFeature: pop_PATRIMONIOCULTURALINMATERIAL_9,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.marker(latlng, style_PATRIMONIOCULTURALINMATERIAL_9_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_PATRIMONIOCULTURALINMATERIAL_9);
+        map.addLayer(layer_PATRIMONIOCULTURALINMATERIAL_9);
+            var title = new L.Control();
+            title.onAdd = function (map) {
+                this._div = L.DomUtil.create('div', 'info');
+                this.update();
+                return this._div;
+            };
+            title.update = function () {
+                this._div.innerHTML = '<h2>Desarrollo social, fortalecimiento y salvaguarda del patrimonio cultural</h2>';
+            };
+            title.addTo(map);
+            var abstract = new L.Control({'position':'topright'});
+            abstract.onAdd = function (map) {
+                this._div = L.DomUtil.create('div',
+                'leaflet-control abstract');
+                this._div.id = 'abstract'
+
+                    abstract.show();
+                    return this._div;
+                };
+                abstract.show = function () {
+                    this._div.classList.remove("abstract");
+                    this._div.classList.add("abstractUncollapsed");
+                    this._div.innerHTML = 'Mapa interactivo sobre salvaguarda del patrimonio cultural, incluye la identificación de manifestaciones inmateriales y aspectos que componen el paisaje histórico urbano a través de paisajes culturales';
+            };
+            abstract.addTo(map);
+        var osmGeocoder = new L.Control.Geocoder({
+            collapsed: true,
+            position: 'topleft',
+            text: 'Search',
+            title: 'Testing'
+        }).addTo(map);
+        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
+        .className += ' fa fa-search';
+        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
+        .title += 'Search for a place';
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'PATRIMONIO CULTURAL INMATERIAL<br /><table><tr><td style="text-align: center;"><img src="legend/PATRIMONIOCULTURALINMATERIAL_9_aTradicionesyexpresionesorales0.png" /></td><td>a) Tradiciones y expresiones orales</td></tr><tr><td style="text-align: center;"><img src="legend/PATRIMONIOCULTURALINMATERIAL_9_bArtesdelespectáculo1.png" /></td><td>b) Artes del espectáculo</td></tr><tr><td style="text-align: center;"><img src="legend/PATRIMONIOCULTURALINMATERIAL_9_cUsossocialesritualesyactosfestivos2.png" /></td><td>c) Usos sociales, rituales y actos festivos</td></tr><tr><td style="text-align: center;"><img src="legend/PATRIMONIOCULTURALINMATERIAL_9_dConocimientosrelacionadosconlanaturaleza3.png" /></td><td>d) Conocimientos relacionados con la naturaleza</td></tr><tr><td style="text-align: center;"><img src="legend/PATRIMONIOCULTURALINMATERIAL_9_eTécnicasartesanalestradicionales4.png" /></td><td>e) Técnicas artesanales tradicionales.</td></tr></table>': layer_PATRIMONIOCULTURALINMATERIAL_9,'ACTORES ESTRATÉGICOS<br /><table><tr><td style="text-align: center;"><img src="legend/ACTORESESTRATGICOS_8_Academia0.png" /></td><td>Academia</td></tr><tr><td style="text-align: center;"><img src="legend/ACTORESESTRATGICOS_8_Iniciativaprivadas1.png" /></td><td>Iniciativa privadas</td></tr><tr><td style="text-align: center;"><img src="legend/ACTORESESTRATGICOS_8_Institucionesestatales2.png" /></td><td>Instituciones estatales</td></tr><tr><td style="text-align: center;"><img src="legend/ACTORESESTRATGICOS_8_Institucionesfederales3.png" /></td><td>Instituciones federales</td></tr><tr><td style="text-align: center;"><img src="legend/ACTORESESTRATGICOS_8_Institucionesmunicipales4.png" /></td><td>Instituciones municipales</td></tr><tr><td style="text-align: center;"><img src="legend/ACTORESESTRATGICOS_8_Organismosinternacionales5.png" /></td><td>Organismos internacionales</td></tr><tr><td style="text-align: center;"><img src="legend/ACTORESESTRATGICOS_8_Organismosnogubernamentales6.png" /></td><td>Organismos no gubernamentales</td></tr><tr><td style="text-align: center;"><img src="legend/ACTORESESTRATGICOS_8_OrganizacionesdelaSociedadCivil7.png" /></td><td>Organizaciones de la Sociedad Civil</td></tr></table>': layer_ACTORESESTRATGICOS_8,'ACTORES COMUNITARIOS<br /><table><tr><td style="text-align: center;"><img src="legend/ACTORESCOMUNITARIOS_7_LÍdercomunitario0.png" /></td><td>LÍder comunitario</td></tr><tr><td style="text-align: center;"><img src="legend/ACTORESCOMUNITARIOS_7_Líderreligioso1.png" /></td><td>Líder religioso</td></tr><tr><td style="text-align: center;"><img src="legend/ACTORESCOMUNITARIOS_7_Liderazgomoral2.png" /></td><td>Liderazgo moral</td></tr></table>': layer_ACTORESCOMUNITARIOS_7,'PAISAJE HISTÓRICO URBANO (FODA)<br /><table><tr><td style="text-align: center;"><img src="legend/PAISAJEHISTRICOURBANOFODA_6_Amenazas0.png" /></td><td>Amenazas</td></tr><tr><td style="text-align: center;"><img src="legend/PAISAJEHISTRICOURBANOFODA_6_Debilidades1.png" /></td><td>Debilidades</td></tr><tr><td style="text-align: center;"><img src="legend/PAISAJEHISTRICOURBANOFODA_6_Fortalezas2.png" /></td><td>Fortalezas</td></tr><tr><td style="text-align: center;"><img src="legend/PAISAJEHISTRICOURBANOFODA_6_Oportunidades3.png" /></td><td>Oportunidades</td></tr></table>': layer_PAISAJEHISTRICOURBANOFODA_6,'<img src="legend/PAISAJESCULTURALESFODA_5.png" /> PAISAJES CULTURALES (FODA)': layer_PAISAJESCULTURALESFODA_5,'<img src="legend/MUNICIPIOS_4.png" /> MUNICIPIOS': layer_MUNICIPIOS_4,'<img src="legend/DIVISINESTATAL_3.png" /> DIVISIÓN ESTATAL': layer_DIVISINESTATAL_3,"TOPOGRAPHY": layer_TOPOGRAPHY_2,"SATELLITE": layer_SATELLITE_1,"URBAN": layer_URBAN_0,},{collapsed:false}).addTo(map);
+        setBounds();
+        var i = 0;
+        layer_PAISAJESCULTURALESFODA_5.eachLayer(function(layer) {
+            var context = {
+                feature: layer.feature,
+                variables: {}
+            };
+            layer.bindTooltip((layer.feature.properties['Paisaje'] !== null?String('<div style="color: #000000; font-size: 14pt; font-family: \'MS Shell Dlg 2\', sans-serif;">' + layer.feature.properties['Paisaje']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_PAISAJESCULTURALESFODA_5'});
+            labels.push(layer);
+            totalMarkers += 1;
+              layer.added = true;
+              addLabel(layer, i);
+              i++;
+        });
+        map.addControl(new L.Control.Search({
+            layer: layer_MUNICIPIOS_4,
+            initial: false,
+            hideMarkerOnCollapse: true,
+            propertyName: 'Municipio'}));
+        document.getElementsByClassName('search-button')[0].className +=
+         ' fa fa-binoculars';
+        var mapDiv = document.getElementById('map');
+        var row = document.createElement('div');
+        row.className="row";
+        row.id="all";
+        row.style.height = "100%";
+        var col1 = document.createElement('div');
+        col1.className="col9";
+        col1.id = "mapWindow";
+        col1.style.height = "99%";
+        col1.style.width = "80%";
+        col1.style.display = "inline-block";
+        var col2 = document.createElement('div');
+        col2.className="col3";
+        col2.id = "menu";
+        col2.style.display = "inline-block";
+        mapDiv.parentNode.insertBefore(row, mapDiv);
+        document.getElementById("all").appendChild(col1);
+        document.getElementById("all").appendChild(col2);
+        col1.appendChild(mapDiv)
+        var Filters = {"PCI MANIF": "str","ENTIDAD": "str","CONCEP PUH": "str"};
+        function filterFunc() {
+          map.eachLayer(function(lyr){
+          if ("options" in lyr && "dataVar" in lyr["options"]){
+            features = this[lyr["options"]["dataVar"]].features.slice(0);
+            try{
+              for (key in Filters){
+                keyS = key.replace(/[^a-zA-Z0-9_]/g, "")
+                if (Filters[key] == "str" || Filters[key] == "bool"){
+                  var selection = [];
+                  var options = document.getElementById("sel_" + keyS).options
+                  for (var i=0; i < options.length; i++) {
+                    if (options[i].selected) selection.push(options[i].value);
+                  }
+                    try{
+                      if (key in features[0].properties){
+                        for (i = features.length - 1;
+                          i >= 0; --i){
+                          if (selection.indexOf(
+                          features[i].properties[key])<0
+                          && selection.length>0) {
+                          features.splice(i,1);
+                          }
+                        }
+                      }
+                    } catch(err){
+                  }
+                }
+                if (Filters[key] == "int"){
+                  sliderVals =  document.getElementById(
+                    "div_" + keyS).noUiSlider.get();
+                  try{
+                    if (key in features[0].properties){
+                    for (i = features.length - 1; i >= 0; --i){
+                      if (parseInt(features[i].properties[key])
+                          < sliderVals[0]
+                          || parseInt(features[i].properties[key])
+                          > sliderVals[1]){
+                            features.splice(i,1);
+                          }
+                        }
+                      }
+                    } catch(err){
+                    }
+                  }
+                if (Filters[key] == "real"){
+                  sliderVals =  document.getElementById(
+                    "div_" + keyS).noUiSlider.get();
+                  try{
+                    if (key in features[0].properties){
+                    for (i = features.length - 1; i >= 0; --i){
+                      if (features[i].properties[key]
+                          < sliderVals[0]
+                          || features[i].properties[key]
+                          > sliderVals[1]){
+                            features.splice(i,1);
+                          }
+                        }
+                      }
+                    } catch(err){
+                    }
+                  }
+                if (Filters[key] == "date"
+                  || Filters[key] == "datetime"
+                  || Filters[key] == "time"){
+                  try{
+                    if (key in features[0].properties){
+                      HTMLkey = key.replace(/[&\/\\#,+()$~%.'":*?<>{} ]/g, '');
+                      startdate = document.getElementById("dat_" +
+                        HTMLkey + "_date1").value.replace(" ", "T");
+                      enddate = document.getElementById("dat_" +
+                        HTMLkey + "_date2").value.replace(" ", "T");
+                      for (i = features.length - 1; i >= 0; --i){
+                        if (features[i].properties[key] < startdate
+                          || features[i].properties[key] > enddate){
+                          features.splice(i,1);
+                        }
+                      }
+                    }
+                  } catch(err){
+                  }
+                }
+              }
+            } catch(err){
+            }
+          this[lyr["options"]["layerName"]].clearLayers();
+          this[lyr["options"]["layerName"]].addData(features);
+        var i = 0;
+        layer_PAISAJESCULTURALESFODA_5.eachLayer(function(layer) {
+            var context = {
+                feature: layer.feature,
+                variables: {}
+            };
+            layer.bindTooltip((layer.feature.properties['Paisaje'] !== null?String('<div style="color: #000000; font-size: 14pt; font-family: \'MS Shell Dlg 2\', sans-serif;">' + layer.feature.properties['Paisaje']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_PAISAJESCULTURALESFODA_5'});
+            labels.push(layer);
+            totalMarkers += 1;
+              layer.added = true;
+              addLabel(layer, i);
+              i++;
+        });
+          }
+          })
+        }
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_PCIMANIF = document.createElement('div');
+            div_PCIMANIF.id = "div_PCIMANIF";
+            div_PCIMANIF.className= "filterselect";
+            document.getElementById("menu").appendChild(div_PCIMANIF);
+            sel_PCIMANIF = document.createElement('select');
+            sel_PCIMANIF.multiple = true;
+            sel_PCIMANIF.size = 10;
+            sel_PCIMANIF.id = "sel_PCIMANIF";
+            var PCIMANIF_options_str = "<option value='' unselected></option>";
+            sel_PCIMANIF.onchange = function(){filterFunc()};
+            PCIMANIF_options_str  += '<option value="Alfarería">Alfarería</option>';
+            PCIMANIF_options_str  += '<option value="Alfarería tradicional de Mama">Alfarería tradicional de Mama</option>';
+            PCIMANIF_options_str  += '<option value="Altares Día de muertos">Altares Día de muertos</option>';
+            PCIMANIF_options_str  += '<option value="Bordado Ch&apos;ol">Bordado Ch&apos;ol</option>';
+            PCIMANIF_options_str  += '<option value="Bordado a mano y maquina">Bordado a mano y maquina</option>';
+            PCIMANIF_options_str  += '<option value="Bordados y textiles">Bordados y textiles</option>';
+            PCIMANIF_options_str  += '<option value="Carnaval">Carnaval</option>';
+            PCIMANIF_options_str  += '<option value="Carnaval de Tenosique, Danza del Pochó">Carnaval de Tenosique, Danza del Pochó</option>';
+            PCIMANIF_options_str  += '<option value="Casa maya">Casa maya</option>';
+            PCIMANIF_options_str  += '<option value="Cebollitas de Ixil">Cebollitas de Ixil</option>';
+            PCIMANIF_options_str  += '<option value="Centros Ceremoniales Mayas Máacewal">Centros Ceremoniales Mayas Máacewal</option>';
+            PCIMANIF_options_str  += '<option value="Ceremonia de la Santa Cruz">Ceremonia de la Santa Cruz</option>';
+            PCIMANIF_options_str  += '<option value="Ceremonia ritual del Balché">Ceremonia ritual del Balché</option>';
+            PCIMANIF_options_str  += '<option value="Cestería (bejuco)">Cestería (bejuco)</option>';
+            PCIMANIF_options_str  += '<option value="Charrería">Charrería</option>';
+            PCIMANIF_options_str  += '<option value="Comida tradicional yucateca">Comida tradicional yucateca</option>';
+            PCIMANIF_options_str  += '<option value="Cosecha de sal">Cosecha de sal</option>';
+            PCIMANIF_options_str  += '<option value="Danza de Pastores o Danzas de Abraham e Isaac">Danza de Pastores o Danzas de Abraham e Isaac</option>';
+            PCIMANIF_options_str  += '<option value="Danza de los comales">Danza de los comales</option>';
+            PCIMANIF_options_str  += '<option value="Elaboración de máscaras de Cojoé de la Danza del Pochó">Elaboración de máscaras de Cojoé de la Danza del Pochó</option>';
+            PCIMANIF_options_str  += '<option value="Elaboración de productos con fibra de henequén">Elaboración de productos con fibra de henequén</option>';
+            PCIMANIF_options_str  += '<option value="Enrrama">Enrrama</option>';
+            PCIMANIF_options_str  += '<option value="Festividades religiosas (patronales)">Festividades religiosas (patronales)</option>';
+            PCIMANIF_options_str  += '<option value="Fiest patronal dedicada a la Santa Cruz Tuun">Fiest patronal dedicada a la Santa Cruz Tuun</option>';
+            PCIMANIF_options_str  += '<option value="Fiesta patronal Virgen de la Asunción">Fiesta patronal Virgen de la Asunción</option>';
+            PCIMANIF_options_str  += '<option value="Fiesta patronal Virgen de la Asunción de la comunidad">Fiesta patronal Virgen de la Asunción de la comunidad</option>';
+            PCIMANIF_options_str  += '<option value="Fiesta patronal de Santon Domingo de Guzmán">Fiesta patronal de Santon Domingo de Guzmán</option>';
+            PCIMANIF_options_str  += '<option value="Fiesta patronal dedicada a San Pedro González Telmo">Fiesta patronal dedicada a San Pedro González Telmo</option>';
+            PCIMANIF_options_str  += '<option value="Fiesta patronal dedicada a la Virgen de Santa Inés, Dzitás">Fiesta patronal dedicada a la Virgen de Santa Inés, Dzitás</option>';
+            PCIMANIF_options_str  += '<option value="Fiesta patronal dedicada a la Virgen de la Concepción">Fiesta patronal dedicada a la Virgen de la Concepción</option>';
+            PCIMANIF_options_str  += '<option value="Fiesta patronal dedicada al Cristo de la Transfiguración de Chumayel">Fiesta patronal dedicada al Cristo de la Transfiguración de Chumayel</option>';
+            PCIMANIF_options_str  += '<option value="Fiestas patronales">Fiestas patronales</option>';
+            PCIMANIF_options_str  += '<option value="Fiestas patronales peninsulares">Fiestas patronales peninsulares</option>';
+            PCIMANIF_options_str  += '<option value="Flor de cera o flor de luz lol cib en Yaxkukul Nolo">Flor de cera o flor de luz lol cib en Yaxkukul Nolo</option>';
+            PCIMANIF_options_str  += '<option value="Hanal pixan">Hanal pixan</option>';
+            PCIMANIF_options_str  += '<option value="Hanal pixán">Hanal pixán</option>';
+            PCIMANIF_options_str  += '<option value="Jarana maya">Jarana maya</option>';
+            PCIMANIF_options_str  += '<option value="Joyería de oro esmaltado">Joyería de oro esmaltado</option>';
+            PCIMANIF_options_str  += '<option value="Juegos tradicionales (juego de pelota)">Juegos tradicionales (juego de pelota)</option>';
+            PCIMANIF_options_str  += '<option value="K’uk’umal Soñ/Danza de la pluma de quetzal">K’uk’umal Soñ/Danza de la pluma de quetzal</option>';
+            PCIMANIF_options_str  += '<option value="Lengua Maya">Lengua Maya</option>';
+            PCIMANIF_options_str  += '<option value="Lengua maya">Lengua maya</option>';
+            PCIMANIF_options_str  += '<option value="Lengua maya como medio de transmisión de tradiciones orales">Lengua maya como medio de transmisión de tradiciones orales</option>';
+            PCIMANIF_options_str  += '<option value="Lengua yokotan">Lengua yokotan</option>';
+            PCIMANIF_options_str  += '<option value="Leyenda de la Diosa Yokotán">Leyenda de la Diosa Yokotán</option>';
+            PCIMANIF_options_str  += '<option value="Limpieza de los santos restos">Limpieza de los santos restos</option>';
+            PCIMANIF_options_str  += '<option value="Los Abrahames de Dzitnup">Los Abrahames de Dzitnup</option>';
+            PCIMANIF_options_str  += '<option value="Lotería campechana">Lotería campechana</option>';
+            PCIMANIF_options_str  += '<option value="Mariachi">Mariachi</option>';
+            PCIMANIF_options_str  += '<option value="Maya Pax, música y danza de los mayas masewales">Maya Pax, música y danza de los mayas masewales</option>';
+            PCIMANIF_options_str  += '<option value="Medicina tradicional">Medicina tradicional</option>';
+            PCIMANIF_options_str  += '<option value="Meliponicultura">Meliponicultura</option>';
+            PCIMANIF_options_str  += '<option value="Milpa maya">Milpa maya</option>';
+            PCIMANIF_options_str  += '<option value="Música de San Miguel Arcangel">Música de San Miguel Arcangel</option>';
+            PCIMANIF_options_str  += '<option value="Música de tamborileros">Música de tamborileros</option>';
+            PCIMANIF_options_str  += '<option value="Música y danza ch&apos;ol de Bachajón">Música y danza ch&apos;ol de Bachajón</option>';
+            PCIMANIF_options_str  += '<option value="Producción de cacao">Producción de cacao</option>';
+            PCIMANIF_options_str  += '<option value="Recetas de la gastronomía maya y técnicas de cocción">Recetas de la gastronomía maya y técnicas de cocción</option>';
+            PCIMANIF_options_str  += '<option value="Recolección tradicional del maquech y su leyenda">Recolección tradicional del maquech y su leyenda</option>';
+            PCIMANIF_options_str  += '<option value="Recorrido de La Vara de San Juan">Recorrido de La Vara de San Juan</option>';
+            PCIMANIF_options_str  += '<option value="Representación viacrucis">Representación viacrucis</option>';
+            PCIMANIF_options_str  += '<option value="Ritual de pesca de la sardina ciega">Ritual de pesca de la sardina ciega</option>';
+            PCIMANIF_options_str  += '<option value="Ritual de promesa del ojo de agua">Ritual de promesa del ojo de agua</option>';
+            PCIMANIF_options_str  += '<option value="Ritualidad doméstica">Ritualidad doméstica</option>';
+            PCIMANIF_options_str  += '<option value="Saberes constructivos">Saberes constructivos</option>';
+            PCIMANIF_options_str  += '<option value="Saberes pesqueros">Saberes pesqueros</option>';
+            PCIMANIF_options_str  += '<option value="Servicios ecosistemicos de manglares y humedales">Servicios ecosistemicos de manglares y humedales</option>';
+            PCIMANIF_options_str  += '<option value="Talabartería">Talabartería</option>';
+            PCIMANIF_options_str  += '<option value="Tallado de madera">Tallado de madera</option>';
+            PCIMANIF_options_str  += '<option value="Tallado de piedra">Tallado de piedra</option>';
+            PCIMANIF_options_str  += '<option value="Teatro maya de la localidad de Xocén">Teatro maya de la localidad de Xocén</option>';
+            PCIMANIF_options_str  += '<option value="Tejido de jipijapa">Tejido de jipijapa</option>';
+            PCIMANIF_options_str  += '<option value="Tejidos con palma de huano (sombrero jipi)">Tejidos con palma de huano (sombrero jipi)</option>';
+            PCIMANIF_options_str  += '<option value="Tinte y pigmento Azul Maya Ch´oj">Tinte y pigmento Azul Maya Ch´oj</option>';
+            PCIMANIF_options_str  += '<option value="Trova yucateca">Trova yucateca</option>';
+            PCIMANIF_options_str  += '<option value="Técnicas de bordados de indumentarias">Técnicas de bordados de indumentarias</option>';
+            PCIMANIF_options_str  += '<option value="U Jáanal Pixanóob. Festividad maya peninsular dedicada a los muertos.">U Jáanal Pixanóob. Festividad maya peninsular dedicada a los muertos.</option>';
+            PCIMANIF_options_str  += '<option value="Urdido de hamaca">Urdido de hamaca</option>';
+            PCIMANIF_options_str  += '<option value="Urdido de hamacas">Urdido de hamacas</option>';
+            PCIMANIF_options_str  += '<option value="Vaquería">Vaquería</option>';
+            PCIMANIF_options_str  += '<option value="Wakax Pojp durante el Carnaval Ch&apos;ol">Wakax Pojp durante el Carnaval Ch&apos;ol</option>';
+            PCIMANIF_options_str  += '<option value="Zona arqueológica de Comalcalco">Zona arqueológica de Comalcalco</option>';
+            sel_PCIMANIF.innerHTML = PCIMANIF_options_str;
+            div_PCIMANIF.appendChild(sel_PCIMANIF);
+            var lab_PCIMANIF = document.createElement('div');
+            lab_PCIMANIF.innerHTML = 'MANIFESTACIONES (PCI) POR ÁMBITO';
+            lab_PCIMANIF.className = 'filterlabel';
+            div_PCIMANIF.appendChild(lab_PCIMANIF);
+            var reset_PCIMANIF = document.createElement('div');
+            reset_PCIMANIF.innerHTML = 'RESTABLECER';
+            reset_PCIMANIF.className = 'filterlabel';
+            reset_PCIMANIF.onclick = function() {
+                var options = document.getElementById("sel_PCIMANIF").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_PCIMANIF.appendChild(reset_PCIMANIF);
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_ENTIDAD = document.createElement('div');
+            div_ENTIDAD.id = "div_ENTIDAD";
+            div_ENTIDAD.className= "filterselect";
+            document.getElementById("menu").appendChild(div_ENTIDAD);
+            sel_ENTIDAD = document.createElement('select');
+            sel_ENTIDAD.multiple = true;
+            sel_ENTIDAD.size = 10;
+            sel_ENTIDAD.id = "sel_ENTIDAD";
+            var ENTIDAD_options_str = "<option value='' unselected></option>";
+            sel_ENTIDAD.onchange = function(){filterFunc()};
+            ENTIDAD_options_str  += '<option value=""Nichim" Mujeres de Roberto Barrios">"Nichim" Mujeres de Roberto Barrios</option>';
+            ENTIDAD_options_str  += '<option value=""Observatorio Juvenil Indígena Cho´l-Maya"">"Observatorio Juvenil Indígena Cho´l-Maya"</option>';
+            ENTIDAD_options_str  += '<option value="(Mujeres Artesanas de Yaxgemel)">(Mujeres Artesanas de Yaxgemel)</option>';
+            ENTIDAD_options_str  += '<option value="ADN Maya">ADN Maya</option>';
+            ENTIDAD_options_str  += '<option value="Abejas Araujo">Abejas Araujo</option>';
+            ENTIDAD_options_str  += '<option value="Alianza Maya por las Abejas Kabnáalo&apos;on">Alianza Maya por las Abejas Kabnáalo&apos;on</option>';
+            ENTIDAD_options_str  += '<option value="Artesanias Muk&apos;ul lum">Artesanias Muk&apos;ul lum</option>';
+            ENTIDAD_options_str  += '<option value="Artesanías en mimbre">Artesanías en mimbre</option>';
+            ENTIDAD_options_str  += '<option value="Autoridad del Patrimonio Cultural del Estado de Campeche">Autoridad del Patrimonio Cultural del Estado de Campeche</option>';
+            ENTIDAD_options_str  += '<option value="Ayuntamiento Valladolid">Ayuntamiento Valladolid</option>';
+            ENTIDAD_options_str  += '<option value="Ayuntamiento de Izamal">Ayuntamiento de Izamal</option>';
+            ENTIDAD_options_str  += '<option value="Ayuntamiento de Tizimín">Ayuntamiento de Tizimín</option>';
+            ENTIDAD_options_str  += '<option value="Bordador independiente">Bordador independiente</option>';
+            ENTIDAD_options_str  += '<option value="Bordados Ki&apos;ilch Pan Lol">Bordados Ki&apos;ilch Pan Lol</option>';
+            ENTIDAD_options_str  += '<option value="CECIDHY">CECIDHY</option>';
+            ENTIDAD_options_str  += '<option value="CICY">CICY</option>';
+            ENTIDAD_options_str  += '<option value="CIESAS Unidad Regional Sureste">CIESAS Unidad Regional Sureste</option>';
+            ENTIDAD_options_str  += '<option value="CIL UADY">CIL UADY</option>';
+            ENTIDAD_options_str  += '<option value="Casa de Artesanías Palenque (ICADECH)">Casa de Artesanías Palenque (ICADECH)</option>';
+            ENTIDAD_options_str  += '<option value="Casa de la Cultura de Ocosingo">Casa de la Cultura de Ocosingo</option>';
+            ENTIDAD_options_str  += '<option value="Casa de la Cultura de Palenque">Casa de la Cultura de Palenque</option>';
+            ENTIDAD_options_str  += '<option value="Casa de la Cultura de Tumbalá">Casa de la Cultura de Tumbalá</option>';
+            ENTIDAD_options_str  += '<option value="Casa de la Mujer Ixim antsetik">Casa de la Mujer Ixim antsetik</option>';
+            ENTIDAD_options_str  += '<option value="Centro Coordinador de Población Indígena (INPI)">Centro Coordinador de Población Indígena (INPI)</option>';
+            ENTIDAD_options_str  += '<option value="Centro Estatal de Lenguas, Arte y Literaturas Indígenas">Centro Estatal de Lenguas, Arte y Literaturas Indígenas</option>';
+            ENTIDAD_options_str  += '<option value="Centro Regional de Educación Normal para Educadoras">Centro Regional de Educación Normal para Educadoras</option>';
+            ENTIDAD_options_str  += '<option value="Centro de  Derechos Indígenas A.C. CEDIAC">Centro de  Derechos Indígenas A.C. CEDIAC</option>';
+            ENTIDAD_options_str  += '<option value="Centro de Agroecología Artes y Oficios Zutut´Ha">Centro de Agroecología Artes y Oficios Zutut´Ha</option>';
+            ENTIDAD_options_str  += '<option value="Centro de Español y Maya, Universidad Autónoma de Campeche">Centro de Español y Maya, Universidad Autónoma de Campeche</option>';
+            ENTIDAD_options_str  += '<option value="Centro de Estudios Superiores de México y Centroamerica CESMECA">Centro de Estudios Superiores de México y Centroamerica CESMECA</option>';
+            ENTIDAD_options_str  += '<option value="Centro de Estudios Superiores de México y Centroamérica (UNICACH)">Centro de Estudios Superiores de México y Centroamérica (UNICACH)</option>';
+            ENTIDAD_options_str  += '<option value="Centro de Investigaciones Multidisciplinarias sobre Chiapas y La Frontera Sur (CIMSUR-UNAM)">Centro de Investigaciones Multidisciplinarias sobre Chiapas y La Frontera Sur (CIMSUR-UNAM)</option>';
+            ENTIDAD_options_str  += '<option value="Centro de Investigación y Asistencia en Tecnología y Diseño del Estado de Jalisco A.C.">Centro de Investigación y Asistencia en Tecnología y Diseño del Estado de Jalisco A.C.</option>';
+            ENTIDAD_options_str  += '<option value="Centro de textiles de mundo maya">Centro de textiles de mundo maya</option>';
+            ENTIDAD_options_str  += '<option value="Centros ceremoniales mayas">Centros ceremoniales mayas</option>';
+            ENTIDAD_options_str  += '<option value="Colectivo Feminista Mercedes Olivera (COFEMO)">Colectivo Feminista Mercedes Olivera (COFEMO)</option>';
+            ENTIDAD_options_str  += '<option value="Colectivo Maya de los Chenes">Colectivo Maya de los Chenes</option>';
+            ENTIDAD_options_str  += '<option value="Colegio de Postgraduados Campus Tabasco">Colegio de Postgraduados Campus Tabasco</option>';
+            ENTIDAD_options_str  += '<option value="Comición Nacional de Áreas Protegidas CONANP">Comición Nacional de Áreas Protegidas CONANP</option>';
+            ENTIDAD_options_str  += '<option value="Comisariado Ejidal">Comisariado Ejidal</option>';
+            ENTIDAD_options_str  += '<option value="Comisariado ejidal  de Tioquipa el Bascan">Comisariado ejidal  de Tioquipa el Bascan</option>';
+            ENTIDAD_options_str  += '<option value="Comisariado ejidal Cuctiepa.">Comisariado ejidal Cuctiepa.</option>';
+            ENTIDAD_options_str  += '<option value="Comisariado ejidal de José María Morelos y Pavón">Comisariado ejidal de José María Morelos y Pavón</option>';
+            ENTIDAD_options_str  += '<option value="Comisariado ejidal de Nuevo Paraíso">Comisariado ejidal de Nuevo Paraíso</option>';
+            ENTIDAD_options_str  += '<option value="Comisariado ejidal de Portaceli">Comisariado ejidal de Portaceli</option>';
+            ENTIDAD_options_str  += '<option value="Comisariado ejidal de San Miguel">Comisariado ejidal de San Miguel</option>';
+            ENTIDAD_options_str  += '<option value="Comisariado ejidal de Venustiano Carranza">Comisariado ejidal de Venustiano Carranza</option>';
+            ENTIDAD_options_str  += '<option value="Comisariado ejidal de conformidad">Comisariado ejidal de conformidad</option>';
+            ENTIDAD_options_str  += '<option value="Comisariado ejidal de ejido el Bascan">Comisariado ejidal de ejido el Bascan</option>';
+            ENTIDAD_options_str  += '<option value="Comisariado ejidal de nuevo Paraíso">Comisariado ejidal de nuevo Paraíso</option>';
+            ENTIDAD_options_str  += '<option value="Comisariado ejidal ejido la conformidad">Comisariado ejidal ejido la conformidad</option>';
+            ENTIDAD_options_str  += '<option value="Comisariado ejidal tortuguero 1ra sección">Comisariado ejidal tortuguero 1ra sección</option>';
+            ENTIDAD_options_str  += '<option value="Comisión Nacional Forestal (CONAFOR)">Comisión Nacional Forestal (CONAFOR)</option>';
+            ENTIDAD_options_str  += '<option value="Comisión Nacional de Áreas Protegidas CONANP">Comisión Nacional de Áreas Protegidas CONANP</option>';
+            ENTIDAD_options_str  += '<option value="Comisión de Industria, comercio, Turismo y Artesanías">Comisión de Industria, comercio, Turismo y Artesanías</option>';
+            ENTIDAD_options_str  += '<option value="Comité Estatal Sistema Producto Café de Chiapas A.C.">Comité Estatal Sistema Producto Café de Chiapas A.C.</option>';
+            ENTIDAD_options_str  += '<option value="Comité de camino tramo santa Maria-Venustino Carranza">Comité de camino tramo santa Maria-Venustino Carranza</option>';
+            ENTIDAD_options_str  += '<option value="Comunidad José María Morelos y Pavón">Comunidad José María Morelos y Pavón</option>';
+            ENTIDAD_options_str  += '<option value="Comunidad Portaceli">Comunidad Portaceli</option>';
+            ENTIDAD_options_str  += '<option value="Comunitario/independiente">Comunitario/independiente</option>';
+            ENTIDAD_options_str  += '<option value="Consejo Estatal para las Culturas y las Artes de Chiapas">Consejo Estatal para las Culturas y las Artes de Chiapas</option>';
+            ENTIDAD_options_str  += '<option value="Cooperativa Tostixim asupiciada por Slow Food Mexico.">Cooperativa Tostixim asupiciada por Slow Food Mexico.</option>';
+            ENTIDAD_options_str  += '<option value="Cooperativa de artesanas mujeres NICHTEJA">Cooperativa de artesanas mujeres NICHTEJA</option>';
+            ENTIDAD_options_str  += '<option value="Coordinación de Turismo y Cultura del Ayuntamiento de Hecelchakán">Coordinación de Turismo y Cultura del Ayuntamiento de Hecelchakán</option>';
+            ENTIDAD_options_str  += '<option value="Coordinador Turismo Municipal">Coordinador Turismo Municipal</option>';
+            ENTIDAD_options_str  += '<option value="Coordinador de Cultura y Educación Municipal de Palenque">Coordinador de Cultura y Educación Municipal de Palenque</option>';
+            ENTIDAD_options_str  += '<option value="Coordinador de Cultura y Recreación Municipal">Coordinador de Cultura y Recreación Municipal</option>';
+            ENTIDAD_options_str  += '<option value="Coordinador del Centro de Revitalización y Estudio de las Lenguas (CIESAS)">Coordinador del Centro de Revitalización y Estudio de las Lenguas (CIESAS)</option>';
+            ENTIDAD_options_str  += '<option value="Coordinadores Sub sedes (UNICACH)">Coordinadores Sub sedes (UNICACH)</option>';
+            ENTIDAD_options_str  += '<option value="Cronista local">Cronista local</option>';
+            ENTIDAD_options_str  += '<option value="Cultura de los Indios Mayas A.C. / Sna Ts&apos;ibajom">Cultura de los Indios Mayas A.C. / Sna Ts&apos;ibajom</option>';
+            ENTIDAD_options_str  += '<option value="Departamento de Gestión del Patrimonio Cultural y Natural Universitario  Academia (UNICACH)">Departamento de Gestión del Patrimonio Cultural y Natural Universitario  Academia (UNICACH)</option>';
+            ENTIDAD_options_str  += '<option value="Departamento de Investigación del Patrimonio Cultural">Departamento de Investigación del Patrimonio Cultural</option>';
+            ENTIDAD_options_str  += '<option value="Departamento de traducción/ Universidad Intercultural de Chiapas">Departamento de traducción/ Universidad Intercultural de Chiapas</option>';
+            ENTIDAD_options_str  += '<option value="Desarrollo de la Medicina Maya (CEDEMM)">Desarrollo de la Medicina Maya (CEDEMM)</option>';
+            ENTIDAD_options_str  += '<option value="Dirección de Cultura Ayuntamiento de Campeche">Dirección de Cultura Ayuntamiento de Campeche</option>';
+            ENTIDAD_options_str  += '<option value="Dirección de Culturas Populares E Indígenas">Dirección de Culturas Populares E Indígenas</option>';
+            ENTIDAD_options_str  += '<option value="Dirección de Culturas Populares Indígenas y Urbanas">Dirección de Culturas Populares Indígenas y Urbanas</option>';
+            ENTIDAD_options_str  += '<option value="Dirección de Desarrollo">Dirección de Desarrollo</option>';
+            ENTIDAD_options_str  += '<option value="Dirección de Educación y Cultura Ayuntamiento de Carmen">Dirección de Educación y Cultura Ayuntamiento de Carmen</option>';
+            ENTIDAD_options_str  += '<option value="Dirección de Educación, Cultura y Deporte de Calkiní">Dirección de Educación, Cultura y Deporte de Calkiní</option>';
+            ENTIDAD_options_str  += '<option value="Dirección de Educación, Cultura y Recreació (H. Ayuntamiento de Balancán)">Dirección de Educación, Cultura y Recreació (H. Ayuntamiento de Balancán)</option>';
+            ENTIDAD_options_str  += '<option value="Dirección de Educación, Cultura y Recreación (H. Ayuntamiento de Tenosique)">Dirección de Educación, Cultura y Recreación (H. Ayuntamiento de Tenosique)</option>';
+            ENTIDAD_options_str  += '<option value="Dirección de Educación, Cultural y Deportes  Ayuntamiento de Calakmul">Dirección de Educación, Cultural y Deportes  Ayuntamiento de Calakmul</option>';
+            ENTIDAD_options_str  += '<option value="Dirección de Patrimonio Mundia INAH">Dirección de Patrimonio Mundia INAH</option>';
+            ENTIDAD_options_str  += '<option value="Dirección de Patrimonio Mundial  INAH-Chiapas">Dirección de Patrimonio Mundial  INAH-Chiapas</option>';
+            ENTIDAD_options_str  += '<option value="Dirección de Turismo Municipal">Dirección de Turismo Municipal</option>';
+            ENTIDAD_options_str  += '<option value="Dirección de Turismo y Cultura del Municipio de Candelaria">Dirección de Turismo y Cultura del Municipio de Candelaria</option>';
+            ENTIDAD_options_str  += '<option value="Director de Ferias y Eventos">Director de Ferias y Eventos</option>';
+            ENTIDAD_options_str  += '<option value="Director de Turismo Municipal">Director de Turismo Municipal</option>';
+            ENTIDAD_options_str  += '<option value="Director del Centro Comunitario de los Altos de Chiapas (INAH)">Director del Centro Comunitario de los Altos de Chiapas (INAH)</option>';
+            ENTIDAD_options_str  += '<option value="Director del Museo Regional de Chiapas (INAH-CHIAPAS)">Director del Museo Regional de Chiapas (INAH-CHIAPAS)</option>';
+            ENTIDAD_options_str  += '<option value="Director del Museo de Sitio de Palenque Alberto "Alberto Ruz L&apos;Huillier"">Director del Museo de Sitio de Palenque Alberto "Alberto Ruz L&apos;Huillier"</option>';
+            ENTIDAD_options_str  += '<option value="EDUCAMPO">EDUCAMPO</option>';
+            ENTIDAD_options_str  += '<option value="Ejido Bascan">Ejido Bascan</option>';
+            ENTIDAD_options_str  += '<option value="Ejido Cuctiepa">Ejido Cuctiepa</option>';
+            ENTIDAD_options_str  += '<option value="Ejido Nuevo Paraiso">Ejido Nuevo Paraiso</option>';
+            ENTIDAD_options_str  += '<option value="Ejido San Miguel">Ejido San Miguel</option>';
+            ENTIDAD_options_str  += '<option value="Ejido Venustiano Carranza">Ejido Venustiano Carranza</option>';
+            ENTIDAD_options_str  += '<option value="El Colegio de la Frontera Sur (ECOSUR) Centro de investigación">El Colegio de la Frontera Sur (ECOSUR) Centro de investigación</option>';
+            ENTIDAD_options_str  += '<option value="El Colegio de la Frontera Sur Unidad Campeche">El Colegio de la Frontera Sur Unidad Campeche</option>';
+            ENTIDAD_options_str  += '<option value="El Rincón de los Textiles">El Rincón de los Textiles</option>';
+            ENTIDAD_options_str  += '<option value="Empresa Esperancita Tiras Bordadas">Empresa Esperancita Tiras Bordadas</option>';
+            ENTIDAD_options_str  += '<option value="Facultad Maya de Estudios Agropecuarios (UNACH)">Facultad Maya de Estudios Agropecuarios (UNACH)</option>';
+            ENTIDAD_options_str  += '<option value="Facultad de Antropología- Universidad Autónoma de Yucatán">Facultad de Antropología- Universidad Autónoma de Yucatán</option>';
+            ENTIDAD_options_str  += '<option value="Facultad de Artes (UNICACH)">Facultad de Artes (UNICACH)</option>';
+            ENTIDAD_options_str  += '<option value="Facultad de Ciencias de la Nutrición y Alimentos (UNICACH)">Facultad de Ciencias de la Nutrición y Alimentos (UNICACH)</option>';
+            ENTIDAD_options_str  += '<option value="Facultad de Música (UNICACH)">Facultad de Música (UNICACH)</option>';
+            ENTIDAD_options_str  += '<option value="Familiar">Familiar</option>';
+            ENTIDAD_options_str  += '<option value="Flor de Jazmín">Flor de Jazmín</option>';
+            ENTIDAD_options_str  += '<option value="Fondo para la Paz">Fondo para la Paz</option>';
+            ENTIDAD_options_str  += '<option value="Fundación Cántaro Azul, A.C.">Fundación Cántaro Azul, A.C.</option>';
+            ENTIDAD_options_str  += '<option value="Fundación Haciendas del Mundo Maya">Fundación Haciendas del Mundo Maya</option>';
+            ENTIDAD_options_str  += '<option value="Fundación Tortilla  de Maíz Mexicana - Fundación Dondé">Fundación Tortilla  de Maíz Mexicana - Fundación Dondé</option>';
+            ENTIDAD_options_str  += '<option value="Galería La Muy">Galería La Muy</option>';
+            ENTIDAD_options_str  += '<option value="Gerencia XEOCH Ocosingo (radio)">Gerencia XEOCH Ocosingo (radio)</option>';
+            ENTIDAD_options_str  += '<option value="Gerencia XEPLE Palenque (radio)">Gerencia XEPLE Palenque (radio)</option>';
+            ENTIDAD_options_str  += '<option value="Gerencia XHNAL Tonalá (radio)">Gerencia XHNAL Tonalá (radio)</option>';
+            ENTIDAD_options_str  += '<option value="Gran Consejo Maya de los Centros ceremoniales mayas maacewal">Gran Consejo Maya de los Centros ceremoniales mayas maacewal</option>';
+            ENTIDAD_options_str  += '<option value="Grupo Jaranero Tumben Kuuxtal">Grupo Jaranero Tumben Kuuxtal</option>';
+            ENTIDAD_options_str  += '<option value="Grupo Juvenil de Artesanos de Glifos Mayas">Grupo Juvenil de Artesanos de Glifos Mayas</option>';
+            ENTIDAD_options_str  += '<option value="Grupo Sáacil Ja">Grupo Sáacil Ja</option>';
+            ENTIDAD_options_str  += '<option value="Grupo de Vaqueras">Grupo de Vaqueras</option>';
+            ENTIDAD_options_str  += '<option value="Grupo de mujeres artesanas">Grupo de mujeres artesanas</option>';
+            ENTIDAD_options_str  += '<option value="Guardianes de las semillas">Guardianes de las semillas</option>';
+            ENTIDAD_options_str  += '<option value="Guia de turismo">Guia de turismo</option>';
+            ENTIDAD_options_str  += '<option value="H. ayuntamiento Municipal">H. ayuntamiento Municipal</option>';
+            ENTIDAD_options_str  += '<option value="Hilario Poot (marca registrada)">Hilario Poot (marca registrada)</option>';
+            ENTIDAD_options_str  += '<option value="Hotelero y transporte de turismo">Hotelero y transporte de turismo</option>';
+            ENTIDAD_options_str  += '<option value="IMPACTO">IMPACTO</option>';
+            ENTIDAD_options_str  += '<option value="INAH - IIDDMAC">INAH - IIDDMAC</option>';
+            ENTIDAD_options_str  += '<option value="INDEMAYA">INDEMAYA</option>';
+            ENTIDAD_options_str  += '<option value="Independiente">Independiente</option>';
+            ENTIDAD_options_str  += '<option value="Instituto Campechano">Instituto Campechano</option>';
+            ENTIDAD_options_str  += '<option value="Instituto Municipal para el Fortalecimiento de la Cultura Maya">Instituto Municipal para el Fortalecimiento de la Cultura Maya</option>';
+            ENTIDAD_options_str  += '<option value="Instituto Nacional de Antropología e Historia (INAH)">Instituto Nacional de Antropología e Historia (INAH)</option>';
+            ENTIDAD_options_str  += '<option value="Instituto Nacional de Investigaciones Forestales Agrícolas y Pecuarias">Instituto Nacional de Investigaciones Forestales Agrícolas y Pecuarias</option>';
+            ENTIDAD_options_str  += '<option value="Instituto Nacional de los Pueblos Indígenas (INPI)">Instituto Nacional de los Pueblos Indígenas (INPI)</option>';
+            ENTIDAD_options_str  += '<option value="Instituto Nacional de los Pueblos Indígenas INPI. Delegación Quintana Roo">Instituto Nacional de los Pueblos Indígenas INPI. Delegación Quintana Roo</option>';
+            ENTIDAD_options_str  += '<option value="Instituto Tecnológico Superior de Calkiní en el Estado de Campeche">Instituto Tecnológico Superior de Calkiní en el Estado de Campeche</option>';
+            ENTIDAD_options_str  += '<option value="Instituto Tecnológico de Tizimín">Instituto Tecnológico de Tizimín</option>';
+            ENTIDAD_options_str  += '<option value="Instituto Yucateco de Emprendimiento">Instituto Yucateco de Emprendimiento</option>';
+            ENTIDAD_options_str  += '<option value="Instituto de Casa de las Artesanías de Chiapas">Instituto de Casa de las Artesanías de Chiapas</option>';
+            ENTIDAD_options_str  += '<option value="Instituto de Ciencias Biológicas (UNICACH)">Instituto de Ciencias Biológicas (UNICACH)</option>';
+            ENTIDAD_options_str  += '<option value="Instituto de Cultura y Artes del Estado de Campeche">Instituto de Cultura y Artes del Estado de Campeche</option>';
+            ENTIDAD_options_str  += '<option value="Instituto de Investigación e Innovación en Energias Renovables (UNICACH)">Instituto de Investigación e Innovación en Energias Renovables (UNICACH)</option>';
+            ENTIDAD_options_str  += '<option value="Instituto de Invetigación en Gestión de Riesgos y Cambio Climático (UNICACH)">Instituto de Invetigación en Gestión de Riesgos y Cambio Climático (UNICACH)</option>';
+            ENTIDAD_options_str  += '<option value="Instituto de la Cultura y las Artes de Quintana Roo.">Instituto de la Cultura y las Artes de Quintana Roo.</option>';
+            ENTIDAD_options_str  += '<option value="Instituto para el Desarrollo del Pueblo Maya y las Comunidades Indígenas del Estado de Quintana Roo">Instituto para el Desarrollo del Pueblo Maya y las Comunidades Indígenas del Estado de Quintana Roo</option>';
+            ENTIDAD_options_str  += '<option value="Instituto para el Fomento de las Artesanías de Tabasco (IFAT)">Instituto para el Fomento de las Artesanías de Tabasco (IFAT)</option>';
+            ENTIDAD_options_str  += '<option value="Jaanil Kaab (Abejas limpias)">Jaanil Kaab (Abejas limpias)</option>';
+            ENTIDAD_options_str  += '<option value="Jefe de la Zona Arqueológica de Toniná">Jefe de la Zona Arqueológica de Toniná</option>';
+            ENTIDAD_options_str  += '<option value="Jefe de la Zona Arqueológica de Yaxchilan y Bonanpak">Jefe de la Zona Arqueológica de Yaxchilan y Bonanpak</option>';
+            ENTIDAD_options_str  += '<option value="Jolob jlumaltik">Jolob jlumaltik</option>';
+            ENTIDAD_options_str  += '<option value="Jolom Mayaetik">Jolom Mayaetik</option>';
+            ENTIDAD_options_str  += '<option value="K&apos;inal antsetik">K&apos;inal antsetik</option>';
+            ENTIDAD_options_str  += '<option value="KOLAVAL">KOLAVAL</option>';
+            ENTIDAD_options_str  += '<option value="Ka Kustal Muuy Meyaj A.C.">Ka Kustal Muuy Meyaj A.C.</option>';
+            ENTIDAD_options_str  += '<option value="Kaab4">Kaab4</option>';
+            ENTIDAD_options_str  += '<option value="Kaabil Chaak (Abejas de lluvia)">Kaabil Chaak (Abejas de lluvia)</option>';
+            ENTIDAD_options_str  += '<option value="Koolel Kab">Koolel Kab</option>';
+            ENTIDAD_options_str  += '<option value="Kuchil kaab">Kuchil kaab</option>';
+            ENTIDAD_options_str  += '<option value="Kuxtalil SC de RL CV">Kuxtalil SC de RL CV</option>';
+            ENTIDAD_options_str  += '<option value="La Jornada Maya">La Jornada Maya</option>';
+            ENTIDAD_options_str  += '<option value="Lol Pich">Lol Pich</option>';
+            ENTIDAD_options_str  += '<option value="Los Yumtziles, músicos jaraneros">Los Yumtziles, músicos jaraneros</option>';
+            ENTIDAD_options_str  += '<option value="Líder Religioso">Líder Religioso</option>';
+            ENTIDAD_options_str  += '<option value="MARCA MAYA-CH&apos;OL">MARCA MAYA-CH&apos;OL</option>';
+            ENTIDAD_options_str  += '<option value="Malacate taller experimental">Malacate taller experimental</option>';
+            ENTIDAD_options_str  += '<option value="Manos mayas">Manos mayas</option>';
+            ENTIDAD_options_str  += '<option value="Meliponario la Bonita">Meliponario la Bonita</option>';
+            ENTIDAD_options_str  += '<option value="Museo Comunitario Mamal Manuel K&apos;ulub">Museo Comunitario Mamal Manuel K&apos;ulub</option>';
+            ENTIDAD_options_str  += '<option value="Museo Na Bolom A.C.">Museo Na Bolom A.C.</option>';
+            ENTIDAD_options_str  += '<option value="Museo de San Cristobal (MUSAC)">Museo de San Cristobal (MUSAC)</option>';
+            ENTIDAD_options_str  += '<option value="Musica y danza ch&apos;ol">Musica y danza ch&apos;ol</option>';
+            ENTIDAD_options_str  += '<option value="Muuch Kambal">Muuch Kambal</option>';
+            ENTIDAD_options_str  += '<option value="Nachig">Nachig</option>';
+            ENTIDAD_options_str  += '<option value="PEN Internacional de Lenguas Indígenas">PEN Internacional de Lenguas Indígenas</option>';
+            ENTIDAD_options_str  += '<option value="PIMVS TUMBEN KUXTAL AC.">PIMVS TUMBEN KUXTAL AC.</option>';
+            ENTIDAD_options_str  += '<option value="PRONATURA A.C.">PRONATURA A.C.</option>';
+            ENTIDAD_options_str  += '<option value="Principal Mayor Miguel  Hernandez Moreno">Principal Mayor Miguel  Hernandez Moreno</option>';
+            ENTIDAD_options_str  += '<option value="Promotor cultural">Promotor cultural</option>';
+            ENTIDAD_options_str  += '<option value="Promotor cultural y docente del lengua maya">Promotor cultural y docente del lengua maya</option>';
+            ENTIDAD_options_str  += '<option value="Promotora cultural">Promotora cultural</option>';
+            ENTIDAD_options_str  += '<option value="Pronatura Capitulo Chiapas A.C.">Pronatura Capitulo Chiapas A.C.</option>';
+            ENTIDAD_options_str  += '<option value="Proyecto de Documentación Ch&apos;ol">Proyecto de Documentación Ch&apos;ol</option>';
+            ENTIDAD_options_str  += '<option value="RECOSUR">RECOSUR</option>';
+            ENTIDAD_options_str  += '<option value="Radio Ach&apos;lekil k&apos;op">Radio Ach&apos;lekil k&apos;op</option>';
+            ENTIDAD_options_str  += '<option value="Radio Emisora  XHNKA "La voz del Gran Pueblo"">Radio Emisora  XHNKA "La voz del Gran Pueblo"</option>';
+            ENTIDAD_options_str  += '<option value="Radio Xepet">Radio Xepet</option>';
+            ENTIDAD_options_str  += '<option value="Radio “La Voz de los Chontales”- INPI">Radio “La Voz de los Chontales”- INPI</option>';
+            ENTIDAD_options_str  += '<option value="Rainforest Alliance México">Rainforest Alliance México</option>';
+            ENTIDAD_options_str  += '<option value="Ranchería Jushil">Ranchería Jushil</option>';
+            ENTIDAD_options_str  += '<option value="Representación del INPI de Chiapas">Representación del INPI de Chiapas</option>';
+            ENTIDAD_options_str  += '<option value="Representante municipal">Representante municipal</option>';
+            ENTIDAD_options_str  += '<option value="S/I">S/I</option>';
+            ENTIDAD_options_str  += '<option value="Sakubel">Sakubel</option>';
+            ENTIDAD_options_str  += '<option value="Secretaría de Agricultura y Desarrollo Rural (SADER) Delegación Tabasco">Secretaría de Agricultura y Desarrollo Rural (SADER) Delegación Tabasco</option>';
+            ENTIDAD_options_str  += '<option value="Secretaría de Cultura del Estado de Tabasco">Secretaría de Cultura del Estado de Tabasco</option>';
+            ENTIDAD_options_str  += '<option value="Secretaría de Desarrollo Agropecuario, Forestal y Pesca (SEDAFOP)">Secretaría de Desarrollo Agropecuario, Forestal y Pesca (SEDAFOP)</option>';
+            ENTIDAD_options_str  += '<option value="Secretaría de Desarrollo Económico de Quintana Roo">Secretaría de Desarrollo Económico de Quintana Roo</option>';
+            ENTIDAD_options_str  += '<option value="Secretaría de Desarrollo Rural">Secretaría de Desarrollo Rural</option>';
+            ENTIDAD_options_str  += '<option value="Secretaría de Desarrollo Social de Quintana Roo">Secretaría de Desarrollo Social de Quintana Roo</option>';
+            ENTIDAD_options_str  += '<option value="Secretaría de Desarrollo Sustentable">Secretaría de Desarrollo Sustentable</option>';
+            ENTIDAD_options_str  += '<option value="Secretaría de Fomento Turístico">Secretaría de Fomento Turístico</option>';
+            ENTIDAD_options_str  += '<option value="Secretaría de Turismo">Secretaría de Turismo</option>';
+            ENTIDAD_options_str  += '<option value="Secretaría de a Cultura y las Artes">Secretaría de a Cultura y las Artes</option>';
+            ENTIDAD_options_str  += '<option value="Secretaría de la Cultura y las Artes">Secretaría de la Cultura y las Artes</option>';
+            ENTIDAD_options_str  += '<option value="Sedeculta/ Museo de Arte Popular de Yucatán">Sedeculta/ Museo de Arte Popular de Yucatán</option>';
+            ENTIDAD_options_str  += '<option value="Semillas del Sur, A.C.">Semillas del Sur, A.C.</option>';
+            ENTIDAD_options_str  += '<option value="Sistema Chiapaneco de Radio, Televisión y Cinematografía">Sistema Chiapaneco de Radio, Televisión y Cinematografía</option>';
+            ENTIDAD_options_str  += '<option value="Sistema de cargos del Centro Ceremonial">Sistema de cargos del Centro Ceremonial</option>';
+            ENTIDAD_options_str  += '<option value="Sk&apos;inal Nichimetik">Sk&apos;inal Nichimetik</option>';
+            ENTIDAD_options_str  += '<option value="Sna jolobil">Sna jolobil</option>';
+            ENTIDAD_options_str  += '<option value="Sociedad de Trabajadores Agrícolas de los Altos, A.C.">Sociedad de Trabajadores Agrícolas de los Altos, A.C.</option>';
+            ENTIDAD_options_str  += '<option value="Subsede Lic. Gastronomía (UNICACH)">Subsede Lic. Gastronomía (UNICACH)</option>';
+            ENTIDAD_options_str  += '<option value="Titular de la Zona Arqueológica de Palenque">Titular de la Zona Arqueológica de Palenque</option>';
+            ENTIDAD_options_str  += '<option value="Unidad Académica Multidiciplinaria Oxchuc (UNICH)">Unidad Académica Multidiciplinaria Oxchuc (UNICH)</option>';
+            ENTIDAD_options_str  += '<option value="Unidad Académica Multidiciplinaria Yajalón (UNICH)">Unidad Académica Multidiciplinaria Yajalón (UNICH)</option>';
+            ENTIDAD_options_str  += '<option value="Unidad Regional Quintana Roo de Culturas Populares, Indígenas y Urbanas">Unidad Regional Quintana Roo de Culturas Populares, Indígenas y Urbanas</option>';
+            ENTIDAD_options_str  += '<option value="Unidad Regional Yucatán- Dirección General de Culturas Populares">Unidad Regional Yucatán- Dirección General de Culturas Populares</option>';
+            ENTIDAD_options_str  += '<option value="Unidad Regional de Culturas Populares">Unidad Regional de Culturas Populares</option>';
+            ENTIDAD_options_str  += '<option value="Unidad de escritores Mayas-Zoquez-UNEMAZ A.C.">Unidad de escritores Mayas-Zoquez-UNEMAZ A.C.</option>';
+            ENTIDAD_options_str  += '<option value="Universidad Anáhuac Mayab /Diseño /Moda e Innovación">Universidad Anáhuac Mayab /Diseño /Moda e Innovación</option>';
+            ENTIDAD_options_str  += '<option value="Universidad Autónoma de Campeche, Centro de Español y Maya">Universidad Autónoma de Campeche, Centro de Español y Maya</option>';
+            ENTIDAD_options_str  += '<option value="Universidad Autónoma de Yucatán, Campus de Ciencias Biológicas y Agropecuarias">Universidad Autónoma de Yucatán, Campus de Ciencias Biológicas y Agropecuarias</option>';
+            ENTIDAD_options_str  += '<option value="Universidad Intercultural Maya de Quintana Roo">Universidad Intercultural Maya de Quintana Roo</option>';
+            ENTIDAD_options_str  += '<option value="Universidad Intercultural de Chiapas">Universidad Intercultural de Chiapas</option>';
+            ENTIDAD_options_str  += '<option value="Universidad Intercultural del Estado de Tabasco (UIET)">Universidad Intercultural del Estado de Tabasco (UIET)</option>';
+            ENTIDAD_options_str  += '<option value="Universidad Politécnica Mesoamericana">Universidad Politécnica Mesoamericana</option>';
+            ENTIDAD_options_str  += '<option value="Universidad de Ciencias y Artes de Chiapas">Universidad de Ciencias y Artes de Chiapas</option>';
+            ENTIDAD_options_str  += '<option value="Universidad de Oriente">Universidad de Oriente</option>';
+            ENTIDAD_options_str  += '<option value="Universidad del Bienestar Benito Juárez García. Campus Felipe Carrillo Puerto">Universidad del Bienestar Benito Juárez García. Campus Felipe Carrillo Puerto</option>';
+            ENTIDAD_options_str  += '<option value="Universidad del Bienestar Benito Juárez García. Campus Playa del Carmen">Universidad del Bienestar Benito Juárez García. Campus Playa del Carmen</option>';
+            ENTIDAD_options_str  += '<option value="Universidad del Caribe">Universidad del Caribe</option>';
+            ENTIDAD_options_str  += '<option value="Universidad para el Bienestar Benito Juarez Calakmul">Universidad para el Bienestar Benito Juarez Calakmul</option>';
+            ENTIDAD_options_str  += '<option value="Unión Regional de Mujeres Artesanas J&apos;PAS JOLVILETIC (URMAJJ)">Unión Regional de Mujeres Artesanas J&apos;PAS JOLVILETIC (URMAJJ)</option>';
+            ENTIDAD_options_str  += '<option value="Unión de Ejidos de la Selva">Unión de Ejidos de la Selva</option>';
+            ENTIDAD_options_str  += '<option value="Unión de Productores de Maíz del Estado de Chiapas, A. C.">Unión de Productores de Maíz del Estado de Chiapas, A. C.</option>';
+            ENTIDAD_options_str  += '<option value="X&apos;yaat">X&apos;yaat</option>';
+            ENTIDAD_options_str  += '<option value="Xluchiyej Nichemetic">Xluchiyej Nichemetic</option>';
+            ENTIDAD_options_str  += '<option value="Yutzil amtel">Yutzil amtel</option>';
+            sel_ENTIDAD.innerHTML = ENTIDAD_options_str;
+            div_ENTIDAD.appendChild(sel_ENTIDAD);
+            var lab_ENTIDAD = document.createElement('div');
+            lab_ENTIDAD.innerHTML = 'ACTORES DEL PCI POR ENTIDAD';
+            lab_ENTIDAD.className = 'filterlabel';
+            div_ENTIDAD.appendChild(lab_ENTIDAD);
+            var reset_ENTIDAD = document.createElement('div');
+            reset_ENTIDAD.innerHTML = 'RESTABLECER';
+            reset_ENTIDAD.className = 'filterlabel';
+            reset_ENTIDAD.onclick = function() {
+                var options = document.getElementById("sel_ENTIDAD").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_ENTIDAD.appendChild(reset_ENTIDAD);
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_CONCEPPUH = document.createElement('div');
+            div_CONCEPPUH.id = "div_CONCEPPUH";
+            div_CONCEPPUH.className= "filterselect";
+            document.getElementById("menu").appendChild(div_CONCEPPUH);
+            sel_CONCEPPUH = document.createElement('select');
+            sel_CONCEPPUH.multiple = true;
+            sel_CONCEPPUH.size = 10;
+            sel_CONCEPPUH.id = "sel_CONCEPPUH";
+            var CONCEPPUH_options_str = "<option value='' unselected></option>";
+            sel_CONCEPPUH.onchange = function(){filterFunc()};
+            CONCEPPUH_options_str  += '<option value="Abandono de manifestaciones del PCI debido al desinteres por parte de jóvenes y falta de cohesión social.">Abandono de manifestaciones del PCI debido al desinteres por parte de jóvenes y falta de cohesión social.</option>';
+            CONCEPPUH_options_str  += '<option value="Abandono, saqueo, tráfico y/o destrucción del patrimonio arqueológico">Abandono, saqueo, tráfico y/o destrucción del patrimonio arqueológico</option>';
+            CONCEPPUH_options_str  += '<option value="Actualización de instrumentos de planeación territorial y/o normas de construcción para la conservación del patrimonio">Actualización de instrumentos de planeación territorial y/o normas de construcción para la conservación del patrimonio</option>';
+            CONCEPPUH_options_str  += '<option value="Actualización de planes de desarrollo urbano">Actualización de planes de desarrollo urbano</option>';
+            CONCEPPUH_options_str  += '<option value="Adaptación al medio natural">Adaptación al medio natural</option>';
+            CONCEPPUH_options_str  += '<option value="Adaptación de las tipologías y técnicas constructivas">Adaptación de las tipologías y técnicas constructivas</option>';
+            CONCEPPUH_options_str  += '<option value="Afectaciones en la producción de tierra y prácticas de PCI">Afectaciones en la producción de tierra y prácticas de PCI</option>';
+            CONCEPPUH_options_str  += '<option value="Afloramiento continuo de rocas calizas">Afloramiento continuo de rocas calizas</option>';
+            CONCEPPUH_options_str  += '<option value="Alteraciones en los usos y tipologías arquitectonicas">Alteraciones en los usos y tipologías arquitectonicas</option>';
+            CONCEPPUH_options_str  += '<option value="Aplicación de energias alternativas y mecanismos de sostenibilidad">Aplicación de energias alternativas y mecanismos de sostenibilidad</option>';
+            CONCEPPUH_options_str  += '<option value="Apropiación cultural">Apropiación cultural</option>';
+            CONCEPPUH_options_str  += '<option value="Aprovechamiento de los programas públicos.">Aprovechamiento de los programas públicos.</option>';
+            CONCEPPUH_options_str  += '<option value="Aprovechamiento sostenible de los sistemas kársticos">Aprovechamiento sostenible de los sistemas kársticos</option>';
+            CONCEPPUH_options_str  += '<option value="Aumento de la desigualdad social">Aumento de la desigualdad social</option>';
+            CONCEPPUH_options_str  += '<option value="Aumento en la población flotante">Aumento en la población flotante</option>';
+            CONCEPPUH_options_str  += '<option value="Cambio climático">Cambio climático</option>';
+            CONCEPPUH_options_str  += '<option value="Capacitación de comunidades y actores locales">Capacitación de comunidades y actores locales</option>';
+            CONCEPPUH_options_str  += '<option value="Cinturones de pobreza">Cinturones de pobreza</option>';
+            CONCEPPUH_options_str  += '<option value="Colaboración con instituciones educativas para brindar asesoramiento">Colaboración con instituciones educativas para brindar asesoramiento</option>';
+            CONCEPPUH_options_str  += '<option value="Colaboración con organismos para la conservación del patrimonio">Colaboración con organismos para la conservación del patrimonio</option>';
+            CONCEPPUH_options_str  += '<option value="Competencia desigual entre sector privado y el servicio local.">Competencia desigual entre sector privado y el servicio local.</option>';
+            CONCEPPUH_options_str  += '<option value="Comunicación via redes de infraestructura con localidades y sitios cercanas.">Comunicación via redes de infraestructura con localidades y sitios cercanas.</option>';
+            CONCEPPUH_options_str  += '<option value="Concientizar sobre los impactos del cambio climático">Concientizar sobre los impactos del cambio climático</option>';
+            CONCEPPUH_options_str  += '<option value="Conservación adecuada de la manufactura del patrimonio cultural">Conservación adecuada de la manufactura del patrimonio cultural</option>';
+            CONCEPPUH_options_str  += '<option value="Conservación de lenguas indígenas">Conservación de lenguas indígenas</option>';
+            CONCEPPUH_options_str  += '<option value="Conservación de técnicas constructivas tradicionales">Conservación de técnicas constructivas tradicionales</option>';
+            CONCEPPUH_options_str  += '<option value="Consolidación de infraestructura para la protección del patrimonio">Consolidación de infraestructura para la protección del patrimonio</option>';
+            CONCEPPUH_options_str  += '<option value="Consolidación de la económia rural y vida comunitaria y generación de nuevos empleos">Consolidación de la económia rural y vida comunitaria y generación de nuevos empleos</option>';
+            CONCEPPUH_options_str  += '<option value="Contaminantes.">Contaminantes.</option>';
+            CONCEPPUH_options_str  += '<option value="Crecimiendo demográfico y urbano desordenado.">Crecimiendo demográfico y urbano desordenado.</option>';
+            CONCEPPUH_options_str  += '<option value="Crecimiento demógrafico y urbano desordenado">Crecimiento demógrafico y urbano desordenado</option>';
+            CONCEPPUH_options_str  += '<option value="Crecimiento económico constante con inversión fija">Crecimiento económico constante con inversión fija</option>';
+            CONCEPPUH_options_str  += '<option value="Crecimiento urbano poco acelerado">Crecimiento urbano poco acelerado</option>';
+            CONCEPPUH_options_str  += '<option value="Declaratoria de la UNESCO como patrimonio mundial">Declaratoria de la UNESCO como patrimonio mundial</option>';
+            CONCEPPUH_options_str  += '<option value="Deficiencia de movilidad">Deficiencia de movilidad</option>';
+            CONCEPPUH_options_str  += '<option value="Deforestación y perdida del habitat en razón de la urbanización">Deforestación y perdida del habitat en razón de la urbanización</option>';
+            CONCEPPUH_options_str  += '<option value="Demanda creciente de productos orgánicos">Demanda creciente de productos orgánicos</option>';
+            CONCEPPUH_options_str  += '<option value="Depredación de especies">Depredación de especies</option>';
+            CONCEPPUH_options_str  += '<option value="Desaparición del patrimonio">Desaparición del patrimonio</option>';
+            CONCEPPUH_options_str  += '<option value="Desarrollo de infraestructura para el tratamiento de residuos">Desarrollo de infraestructura para el tratamiento de residuos</option>';
+            CONCEPPUH_options_str  += '<option value="Desarrollo de inventarios">Desarrollo de inventarios</option>';
+            CONCEPPUH_options_str  += '<option value="Desarrollo de nuevas investigaciones">Desarrollo de nuevas investigaciones</option>';
+            CONCEPPUH_options_str  += '<option value="Desarrollo de programas locales de educación y fortalecimiento social o medioambiental">Desarrollo de programas locales de educación y fortalecimiento social o medioambiental</option>';
+            CONCEPPUH_options_str  += '<option value="Desarrollo del PCI a través del conocimiento sobre la cultura y tradiciones">Desarrollo del PCI a través del conocimiento sobre la cultura y tradiciones</option>';
+            CONCEPPUH_options_str  += '<option value="Desarrollo turístico (ecoturismo, agroturismo, turismo  arqueológico, turismo comunitario)">Desarrollo turístico (ecoturismo, agroturismo, turismo  arqueológico, turismo comunitario)</option>';
+            CONCEPPUH_options_str  += '<option value="Desarrollo turístico desorganizado">Desarrollo turístico desorganizado</option>';
+            CONCEPPUH_options_str  += '<option value="Desconocimiento en los servicios y/o actividades culturales.">Desconocimiento en los servicios y/o actividades culturales.</option>';
+            CONCEPPUH_options_str  += '<option value="Desfavorables condiciones de conservación">Desfavorables condiciones de conservación</option>';
+            CONCEPPUH_options_str  += '<option value="Desincronia entre ciclos de producción y venta">Desincronia entre ciclos de producción y venta</option>';
+            CONCEPPUH_options_str  += '<option value="Desinteres por el patrimonio cultural">Desinteres por el patrimonio cultural</option>';
+            CONCEPPUH_options_str  += '<option value="Deterioro del patrimonio natural y/o cultural">Deterioro del patrimonio natural y/o cultural</option>';
+            CONCEPPUH_options_str  += '<option value="Difusión de resultados, de los valores del patrimonio y/o de los avances del proyecto">Difusión de resultados, de los valores del patrimonio y/o de los avances del proyecto</option>';
+            CONCEPPUH_options_str  += '<option value="Difusión del patrimonio y vinculación comunitaria">Difusión del patrimonio y vinculación comunitaria</option>';
+            CONCEPPUH_options_str  += '<option value="Discriminación">Discriminación</option>';
+            CONCEPPUH_options_str  += '<option value="Disminución en el turismo de pernocta">Disminución en el turismo de pernocta</option>';
+            CONCEPPUH_options_str  += '<option value="Disminución en las especies nativas">Disminución en las especies nativas</option>';
+            CONCEPPUH_options_str  += '<option value="Disparidad en el acceso a programas sociales en municipios vecinos.">Disparidad en el acceso a programas sociales en municipios vecinos.</option>';
+            CONCEPPUH_options_str  += '<option value="Disponibilidad y aprovechamiento histórico sostenible de los recursos">Disponibilidad y aprovechamiento histórico sostenible de los recursos</option>';
+            CONCEPPUH_options_str  += '<option value="Diversidad de expresiones del patrimonio cultural">Diversidad de expresiones del patrimonio cultural</option>';
+            CONCEPPUH_options_str  += '<option value="Diversidad en flora y fauna">Diversidad en flora y fauna</option>';
+            CONCEPPUH_options_str  += '<option value="Diversidad en flora y fauna.">Diversidad en flora y fauna.</option>';
+            CONCEPPUH_options_str  += '<option value="Especulación inmobiliaria, gentrificación y acaparación de tierras">Especulación inmobiliaria, gentrificación y acaparación de tierras</option>';
+            CONCEPPUH_options_str  += '<option value="Extracción de minerales">Extracción de minerales</option>';
+            CONCEPPUH_options_str  += '<option value="Falsos históricos">Falsos históricos</option>';
+            CONCEPPUH_options_str  += '<option value="Falta  de materia prima para el desarrollo de manifestaciones del PCI">Falta  de materia prima para el desarrollo de manifestaciones del PCI</option>';
+            CONCEPPUH_options_str  += '<option value="Falta de acceso a la información">Falta de acceso a la información</option>';
+            CONCEPPUH_options_str  += '<option value="Falta de apropiación comunitaria">Falta de apropiación comunitaria</option>';
+            CONCEPPUH_options_str  += '<option value="Falta de capacitación de especialistas para la conservación del patrimonio">Falta de capacitación de especialistas para la conservación del patrimonio</option>';
+            CONCEPPUH_options_str  += '<option value="Falta de capacitación en nuevos productores artesanales">Falta de capacitación en nuevos productores artesanales</option>';
+            CONCEPPUH_options_str  += '<option value="Falta de condiciones de mercado para los productos artesanales">Falta de condiciones de mercado para los productos artesanales</option>';
+            CONCEPPUH_options_str  += '<option value="Falta de conocimiento sobre la legislación de protección aplicable">Falta de conocimiento sobre la legislación de protección aplicable</option>';
+            CONCEPPUH_options_str  += '<option value="Falta de consolidación de la oferta cultural">Falta de consolidación de la oferta cultural</option>';
+            CONCEPPUH_options_str  += '<option value="Falta de difusión.">Falta de difusión.</option>';
+            CONCEPPUH_options_str  += '<option value="Falta de estudios multidisciplinarios">Falta de estudios multidisciplinarios</option>';
+            CONCEPPUH_options_str  += '<option value="Falta de infraestructura turística necesaria">Falta de infraestructura turística necesaria</option>';
+            CONCEPPUH_options_str  += '<option value="Falta de inventarios">Falta de inventarios</option>';
+            CONCEPPUH_options_str  += '<option value="Falta de investigación">Falta de investigación</option>';
+            CONCEPPUH_options_str  += '<option value="Falta de mantenimiento">Falta de mantenimiento</option>';
+            CONCEPPUH_options_str  += '<option value="Falta de mecanismos eficaces para la capacitación de productores y aumento de intermediarios para la compra y venta de productos">Falta de mecanismos eficaces para la capacitación de productores y aumento de intermediarios para la compra y venta de productos</option>';
+            CONCEPPUH_options_str  += '<option value="Falta de normatividad">Falta de normatividad</option>';
+            CONCEPPUH_options_str  += '<option value="Falta de ordenamiento territorial y demógrafico">Falta de ordenamiento territorial y demógrafico</option>';
+            CONCEPPUH_options_str  += '<option value="Falta de ordenamiento territorial y demógrafico para la conservación del patrimonio">Falta de ordenamiento territorial y demógrafico para la conservación del patrimonio</option>';
+            CONCEPPUH_options_str  += '<option value="Falta de participación política en la conservación del patrimonio">Falta de participación política en la conservación del patrimonio</option>';
+            CONCEPPUH_options_str  += '<option value="Falta de recursos económicos y/o humanos, e impedimentos logísticos / administrativos">Falta de recursos económicos y/o humanos, e impedimentos logísticos / administrativos</option>';
+            CONCEPPUH_options_str  += '<option value="Falta de recursos y certificaciones externas.">Falta de recursos y certificaciones externas.</option>';
+            CONCEPPUH_options_str  += '<option value="Falta de seguimiento de proyectos y/o programas">Falta de seguimiento de proyectos y/o programas</option>';
+            CONCEPPUH_options_str  += '<option value="Falta de valoración de las manifestaciones del PCI por parte de la localidad">Falta de valoración de las manifestaciones del PCI por parte de la localidad</option>';
+            CONCEPPUH_options_str  += '<option value="Falta de visibilidad de grupos culturales, artísticos o artesanales, así como de las manifestaciones del PCI">Falta de visibilidad de grupos culturales, artísticos o artesanales, así como de las manifestaciones del PCI</option>';
+            CONCEPPUH_options_str  += '<option value="Falta en el cultivo de especies nativas">Falta en el cultivo de especies nativas</option>';
+            CONCEPPUH_options_str  += '<option value="Fomento a la investigación y divulgación">Fomento a la investigación y divulgación</option>';
+            CONCEPPUH_options_str  += '<option value="Generación de nuevos itinerarios para la conservación del patrimonio cultural">Generación de nuevos itinerarios para la conservación del patrimonio cultural</option>';
+            CONCEPPUH_options_str  += '<option value="Gran oferta y capacidad de hospedaje">Gran oferta y capacidad de hospedaje</option>';
+            CONCEPPUH_options_str  += '<option value="Heterogeneidad en los ecosistemas">Heterogeneidad en los ecosistemas</option>';
+            CONCEPPUH_options_str  += '<option value="Icertidumbre en tenencia de lal tierra">Icertidumbre en tenencia de lal tierra</option>';
+            CONCEPPUH_options_str  += '<option value="Idependencia de las comunidades en la práctica del PCI">Idependencia de las comunidades en la práctica del PCI</option>';
+            CONCEPPUH_options_str  += '<option value="Implementación de pasos de fauna">Implementación de pasos de fauna</option>';
+            CONCEPPUH_options_str  += '<option value="Incidencia de fenómenos naturales / desastres">Incidencia de fenómenos naturales / desastres</option>';
+            CONCEPPUH_options_str  += '<option value="Incremento de la demanda turística desordenada">Incremento de la demanda turística desordenada</option>';
+            CONCEPPUH_options_str  += '<option value="Incremento en la derrama económica.">Incremento en la derrama económica.</option>';
+            CONCEPPUH_options_str  += '<option value="Infraestructura turística">Infraestructura turística</option>';
+            CONCEPPUH_options_str  += '<option value="Inseguridad">Inseguridad</option>';
+            CONCEPPUH_options_str  += '<option value="Integración de expresiones culturales en los procesos de reconocimiento cultural">Integración de expresiones culturales en los procesos de reconocimiento cultural</option>';
+            CONCEPPUH_options_str  += '<option value="Interconexión con ciudades vecinas y/o cercanas">Interconexión con ciudades vecinas y/o cercanas</option>';
+            CONCEPPUH_options_str  += '<option value="Interes creciente en prácticas tradicionales y /o artesanales">Interes creciente en prácticas tradicionales y /o artesanales</option>';
+            CONCEPPUH_options_str  += '<option value="Interes por parte de jovenes en la producción tradicional">Interes por parte de jovenes en la producción tradicional</option>';
+            CONCEPPUH_options_str  += '<option value="Interés del mercado internacional en productos locales">Interés del mercado internacional en productos locales</option>';
+            CONCEPPUH_options_str  += '<option value="Introducción al mercado en linea">Introducción al mercado en linea</option>';
+            CONCEPPUH_options_str  += '<option value="Inventariado de bienes">Inventariado de bienes</option>';
+            CONCEPPUH_options_str  += '<option value="Inversión nacional y extranjera">Inversión nacional y extranjera</option>';
+            CONCEPPUH_options_str  += '<option value="Inversión pública desequitativa">Inversión pública desequitativa</option>';
+            CONCEPPUH_options_str  += '<option value="Involucramiento de autoridades en el desarrollo del patrimonio">Involucramiento de autoridades en el desarrollo del patrimonio</option>';
+            CONCEPPUH_options_str  += '<option value="Involucramiento de jovenes en prácticas tradicionales">Involucramiento de jovenes en prácticas tradicionales</option>';
+            CONCEPPUH_options_str  += '<option value="Involucramiento de las autoridades con comunidades">Involucramiento de las autoridades con comunidades</option>';
+            CONCEPPUH_options_str  += '<option value="Mayor producción de cultivos">Mayor producción de cultivos</option>';
+            CONCEPPUH_options_str  += '<option value="Mejoramiento de infrastructura e instalaciones">Mejoramiento de infrastructura e instalaciones</option>';
+            CONCEPPUH_options_str  += '<option value="Mejorar las condiciones administrativas y financieras para la conservación del patrimonio">Mejorar las condiciones administrativas y financieras para la conservación del patrimonio</option>';
+            CONCEPPUH_options_str  += '<option value="Migración">Migración</option>';
+            CONCEPPUH_options_str  += '<option value="Migración.">Migración.</option>';
+            CONCEPPUH_options_str  += '<option value="Modificación en las manifestaciones del PCI">Modificación en las manifestaciones del PCI</option>';
+            CONCEPPUH_options_str  += '<option value="Necesidad de desarrollo en infraestructura básica">Necesidad de desarrollo en infraestructura básica</option>';
+            CONCEPPUH_options_str  += '<option value="Necesidad de infraestructura para el tratamiento de residuos.">Necesidad de infraestructura para el tratamiento de residuos.</option>';
+            CONCEPPUH_options_str  += '<option value="Necesidad de integrar patrimonio naútico">Necesidad de integrar patrimonio naútico</option>';
+            CONCEPPUH_options_str  += '<option value="Necesidad en el rescate de lenguas indígenas">Necesidad en el rescate de lenguas indígenas</option>';
+            CONCEPPUH_options_str  += '<option value="Oferta turística diversa">Oferta turística diversa</option>';
+            CONCEPPUH_options_str  += '<option value="Patrimonio cultural en buen estado de conservación">Patrimonio cultural en buen estado de conservación</option>';
+            CONCEPPUH_options_str  += '<option value="Patrimonio en riesgo de desaparición">Patrimonio en riesgo de desaparición</option>';
+            CONCEPPUH_options_str  += '<option value="Perdida de habitabilidad en centros históricos y deterioro de los mismos">Perdida de habitabilidad en centros históricos y deterioro de los mismos</option>';
+            CONCEPPUH_options_str  += '<option value="Perdida de lenguas indígenas">Perdida de lenguas indígenas</option>';
+            CONCEPPUH_options_str  += '<option value="Personal y especialistas capacitados">Personal y especialistas capacitados</option>';
+            CONCEPPUH_options_str  += '<option value="Población flotante">Población flotante</option>';
+            CONCEPPUH_options_str  += '<option value="Poca consolidación en el sistema de manejo de residuos">Poca consolidación en el sistema de manejo de residuos</option>';
+            CONCEPPUH_options_str  += '<option value="Poca participación social">Poca participación social</option>';
+            CONCEPPUH_options_str  += '<option value="Políticas públicas que suplen, alteran o ponen en riesgo las actividades tradicionales">Políticas públicas que suplen, alteran o ponen en riesgo las actividades tradicionales</option>';
+            CONCEPPUH_options_str  += '<option value="Posibilidad de depredación de especies">Posibilidad de depredación de especies</option>';
+            CONCEPPUH_options_str  += '<option value="Presencia de acuiferos">Presencia de acuiferos</option>';
+            CONCEPPUH_options_str  += '<option value="Problemas en vías terrestres de comunicación, así como en otros tipos de infraestructura.">Problemas en vías terrestres de comunicación, así como en otros tipos de infraestructura.</option>';
+            CONCEPPUH_options_str  += '<option value="Producción a partir de prácticas tradicionales.">Producción a partir de prácticas tradicionales.</option>';
+            CONCEPPUH_options_str  += '<option value="Protección legal de los bienes culturales y/o bioculturales mediante la normativa nacional o internacional">Protección legal de los bienes culturales y/o bioculturales mediante la normativa nacional o internacional</option>';
+            CONCEPPUH_options_str  += '<option value="Proyecto sostenible mediante nichos de mercado para productos tradicionales">Proyecto sostenible mediante nichos de mercado para productos tradicionales</option>';
+            CONCEPPUH_options_str  += '<option value="Recomposición de la imagen urbana">Recomposición de la imagen urbana</option>';
+            CONCEPPUH_options_str  += '<option value="Reforestación de flora nativa y restauración del ecosístema">Reforestación de flora nativa y restauración del ecosístema</option>';
+            CONCEPPUH_options_str  += '<option value="Reglamentos y/o instrumentos de planeación poco adecuados o desactualizados">Reglamentos y/o instrumentos de planeación poco adecuados o desactualizados</option>';
+            CONCEPPUH_options_str  += '<option value="Renuencia a los cambios">Renuencia a los cambios</option>';
+            CONCEPPUH_options_str  += '<option value="Restauración de inmuebles, conjuntos patrimoniales o del paisajes cultural">Restauración de inmuebles, conjuntos patrimoniales o del paisajes cultural</option>';
+            CONCEPPUH_options_str  += '<option value="Revalorar manifestaciones tradicionales">Revalorar manifestaciones tradicionales</option>';
+            CONCEPPUH_options_str  += '<option value="Sobre explotación de los recursos">Sobre explotación de los recursos</option>';
+            CONCEPPUH_options_str  += '<option value="Sobresaturación de uso comercial o turístico del patrimonio cultural">Sobresaturación de uso comercial o turístico del patrimonio cultural</option>';
+            CONCEPPUH_options_str  += '<option value="Trabajo con comunidades locales, organizaciones ciudadanas y participación social">Trabajo con comunidades locales, organizaciones ciudadanas y participación social</option>';
+            CONCEPPUH_options_str  += '<option value="Transformación en la imagen urbana del centro histórico, así como en sus usos por otros menos compatibles">Transformación en la imagen urbana del centro histórico, así como en sus usos por otros menos compatibles</option>';
+            CONCEPPUH_options_str  += '<option value="Turismo masivo">Turismo masivo</option>';
+            CONCEPPUH_options_str  += '<option value="Ubicación estrategica">Ubicación estrategica</option>';
+            CONCEPPUH_options_str  += '<option value="Uso efiiente de vías de comunicación terrestre">Uso efiiente de vías de comunicación terrestre</option>';
+            CONCEPPUH_options_str  += '<option value="Uso indebido de la propiedad intelectual de los diseños atesanales">Uso indebido de la propiedad intelectual de los diseños atesanales</option>';
+            CONCEPPUH_options_str  += '<option value="Usos no compatibles con el patrimonio cultural">Usos no compatibles con el patrimonio cultural</option>';
+            CONCEPPUH_options_str  += '<option value="Vinculación con organizaciones independientes">Vinculación con organizaciones independientes</option>';
+            CONCEPPUH_options_str  += '<option value="Vinculación histórica entre las comunidades y su patrimonio cultural y/o natural">Vinculación histórica entre las comunidades y su patrimonio cultural y/o natural</option>';
+            CONCEPPUH_options_str  += '<option value="Visibilizar experiencias de sostenibilidad medioambiental en el estado">Visibilizar experiencias de sostenibilidad medioambiental en el estado</option>';
+            sel_CONCEPPUH.innerHTML = CONCEPPUH_options_str;
+            div_CONCEPPUH.appendChild(sel_CONCEPPUH);
+            var lab_CONCEPPUH = document.createElement('div');
+            lab_CONCEPPUH.innerHTML = 'CONCEPTO FODA DEL PUH';
+            lab_CONCEPPUH.className = 'filterlabel';
+            div_CONCEPPUH.appendChild(lab_CONCEPPUH);
+            var reset_CONCEPPUH = document.createElement('div');
+            reset_CONCEPPUH.innerHTML = 'RESTABLECER';
+            reset_CONCEPPUH.className = 'filterlabel';
+            reset_CONCEPPUH.onclick = function() {
+                var options = document.getElementById("sel_CONCEPPUH").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_CONCEPPUH.appendChild(reset_CONCEPPUH);
+        resetLabels([layer_MUNICIPIOS_4,layer_PAISAJESCULTURALESFODA_5,layer_PATRIMONIOCULTURALINMATERIAL_9]);
+        map.on("zoomend", function(){
+            resetLabels([layer_MUNICIPIOS_4,layer_PAISAJESCULTURALESFODA_5,layer_PATRIMONIOCULTURALINMATERIAL_9]);
+        });
+        map.on("layeradd", function(){
+            resetLabels([layer_MUNICIPIOS_4,layer_PAISAJESCULTURALESFODA_5,layer_PATRIMONIOCULTURALINMATERIAL_9]);
+        });
+        map.on("layerremove", function(){
+            resetLabels([layer_MUNICIPIOS_4,layer_PAISAJESCULTURALESFODA_5,layer_PATRIMONIOCULTURALINMATERIAL_9]);
+        });
+        </script>
+    </body>
+</html>
